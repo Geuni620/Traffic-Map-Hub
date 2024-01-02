@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import {createClient} from "@/utils/supabase/client";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from 'react';
+
+import { createClient } from '@/utils/supabase/client';
 
 export default function Page() {
   const [notes, setNotes] = useState<any[] | null>(null);
@@ -9,7 +10,7 @@ export default function Page() {
 
   useEffect(() => {
     const getData = async () => {
-      const {data} = await supabase.from("notes").select();
+      const { data } = await supabase.from('notes').select();
       setNotes(data);
     };
     getData();
