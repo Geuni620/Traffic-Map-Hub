@@ -6,10 +6,15 @@ import { createClient } from '@/utils/supabase/server';
 export default async function Index() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const { data: highway } = await supabase.from('highway-position').select('*');
-  const { data: seoul } = await supabase
+  const { data: highwayData } = await supabase
+    .from('highway-position')
+    .select('*');
+  const { data: seoulData } = await supabase
     .from('seoul-traffic-position')
     .select('*');
+
+  const highway = highwayData?.map((item) => ({ ...item, source: 'highway' }));
+  const seoul = seoulData?.map((item) => ({ ...item, source: 'seoul' }));
   const combinedData = [...highway, ...seoul];
 
   return (

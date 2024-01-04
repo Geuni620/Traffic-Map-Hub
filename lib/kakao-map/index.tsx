@@ -20,7 +20,6 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
         strategy="beforeInteractive"
       />
-
       <Map
         center={{ lat: 33.5563, lng: 126.79581 }}
         style={{ width: '100%', height: '100vh' }}
@@ -32,6 +31,16 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
             <MapMarker
               key={index}
               position={{ lat: item.XCODE, lng: item.YCODE }}
+              image={{
+                src:
+                  item.source === 'highway'
+                    ? '/images/h-maker.png'
+                    : '/images/s-maker.png',
+                size: {
+                  width: 25,
+                  height: 25,
+                }, // 마커이미지의 크기입니다
+              }}
             >
               {/* 마커 클릭 시 표시될 내용 */}
             </MapMarker>
