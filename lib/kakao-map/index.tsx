@@ -1,5 +1,6 @@
 'use client';
 
+import { LOCATION } from 'constant/geo-location';
 import Script from 'next/script';
 import { useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
@@ -10,8 +11,6 @@ type MapContainerProps = {
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
-  console.log('zoomLevel', zoomLevel);
-  console.log('data', data);
 
   return (
     <>
@@ -21,7 +20,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
         strategy="beforeInteractive"
       />
       <Map
-        center={{ lat: 33.5563, lng: 126.79581 }}
+        center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
         style={{ width: '100%', height: '100vh' }}
         level={3}
         onZoomChanged={(map) => setZoomLevel(map.getLevel())}
@@ -39,7 +38,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                 size: {
                   width: 25,
                   height: 25,
-                }, // 마커이미지의 크기입니다
+                },
               }}
             >
               {/* 마커 클릭 시 표시될 내용 */}
