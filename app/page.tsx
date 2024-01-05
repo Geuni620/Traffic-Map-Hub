@@ -4,32 +4,42 @@ import { Tables } from 'types/supabase';
 
 import { createClient } from '@/utils/supabase/server';
 
-// 'highway-position' 테이블의 행 타입
 type HighwayPositionRow = Tables<'highway-position'>;
-
-// 'seoul-traffic-position' 테이블의 행 타입
 type SeoulTrafficPositionRow = Tables<'seoul-traffic-position'>;
 
-// MapContainer 컴포넌트의 props 타입
+type WithSource<T, SourceType extends string> = T & { source: SourceType };
+type HighwayPositionWithSource = WithSource<HighwayPositionRow, 'highway'>;
+type SeoulTrafficPositionWithSource = WithSource<
+  SeoulTrafficPositionRow,
+  'seoul'
+>;
+
 export type MapContainerProps = {
-  data:
-    | (HighwayPositionRow & { source: 'highway' })[]
-    | (SeoulTrafficPositionRow & { source: 'seoul' })[];
+  data: (HighwayPositionWithSource | SeoulTrafficPositionWithSource)[];
 };
 
 export default async function Index() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
+
   const { data: highwayData } = await supabase
     .from('highway-position')
-    .select('*');
+    .select('*')
+    .returns<HighwayPositionRow[]>();
   const { data: seoulData } = await supabase
     .from('seoul-traffic-position')
-    .select('*');
+    .select('*')
+    .returns<SeoulTrafficPositionRow[]>();
 
-  const highway = highwayData?.map((item) => ({ ...item, source: 'highway' }));
-  const seoul = seoulData?.map((item) => ({ ...item, source: 'seoul' }));
-  const combinedData = [...highway, ...seoul];
+  const highway = highwayData?.map((item) => ({
+    ...item,
+    source: 'highway' as const,
+  }));
+  const seoul = seoulData?.map((item) => ({
+    ...item,
+    source: 'seoul' as const,
+  }));
+  const combinedData = [...(highway || []), ...(seoul || [])];
 
   return (
     <div className="flex w-full flex-1 flex-col items-center gap-20">

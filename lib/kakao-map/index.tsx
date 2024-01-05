@@ -42,7 +42,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                   },
                 }}
               >
-                {/* 마커 클릭 시 표시될 내용 */}
+                {/* <div>Hello World!</div> */}
               </MapMarker>
             );
           })}
