@@ -1,13 +1,10 @@
 'use client';
 
+import { type MapContainerProps } from 'app/page';
 import { LOCATION } from 'constant/geo-location';
 import Script from 'next/script';
 import { useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-
-type MapContainerProps = {
-  data: any;
-};
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
@@ -26,24 +23,29 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
         onZoomChanged={(map) => setZoomLevel(map.getLevel())}
       >
         {zoomLevel < 10 &&
-          data.map((item, index) => (
-            <MapMarker
-              key={index}
-              position={{ lat: item.XCODE, lng: item.YCODE }}
-              image={{
-                src:
-                  item.source === 'highway'
-                    ? '/images/h-maker.png'
-                    : '/images/s-maker.png',
-                size: {
-                  width: 25,
-                  height: 25,
-                },
-              }}
-            >
-              {/* 마커 클릭 시 표시될 내용 */}
-            </MapMarker>
-          ))}
+          data.map((item, index) => {
+            return (
+              <MapMarker
+                key={index}
+                position={{
+                  lat: item.XCODE as number,
+                  lng: item.YCODE as number,
+                }}
+                image={{
+                  src:
+                    item.source === 'highway'
+                      ? '/images/h-maker.png'
+                      : '/images/s-maker.png',
+                  size: {
+                    width: 25,
+                    height: 25,
+                  },
+                }}
+              >
+                {/* 마커 클릭 시 표시될 내용 */}
+              </MapMarker>
+            );
+          })}
       </Map>
     </>
   );
