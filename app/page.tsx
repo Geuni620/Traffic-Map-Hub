@@ -31,6 +31,10 @@ export default async function Index() {
     .select('*')
     .returns<SeoulTrafficPositionRow[]>();
 
+  const { data: incheonData } = await supabase
+    .from('incheon-traffic-position')
+    .select('*');
+
   const highway = highwayData?.map((item) => ({
     ...item,
     source: 'highway' as const,
@@ -39,7 +43,16 @@ export default async function Index() {
     ...item,
     source: 'seoul' as const,
   }));
-  const combinedData = [...(highway || []), ...(seoul || [])];
+  const incheon = incheonData?.map((item) => ({
+    ...item,
+    source: 'incheon' as const,
+  }));
+
+  const combinedData = [
+    ...(highway || []),
+    ...(seoul || []),
+    ...(incheon || []),
+  ];
 
   return (
     <div className="flex w-full flex-1 flex-col items-center gap-20">

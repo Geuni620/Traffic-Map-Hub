@@ -22,7 +22,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
         level={3}
         onZoomChanged={(map) => setZoomLevel(map.getLevel())}
       >
-        {zoomLevel < 10 &&
+        {
+          // zoomLevel < 10 &&
           data.map((item, index) => {
             return (
               <MapMarker
@@ -34,8 +35,11 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                 image={{
                   src:
                     item.source === 'highway'
-                      ? '/images/h-maker.png'
-                      : '/images/s-maker.png',
+                      ? '/images/h-marker.png'
+                      : item.source === 'seoul'
+                        ? '/images/s-marker.png'
+                        : '/images/i-marker.png',
+
                   size: {
                     width: 25,
                     height: 25,
@@ -45,7 +49,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                 {/* <div>Hello World!</div> */}
               </MapMarker>
             );
-          })}
+          })
+        }
       </Map>
     </>
   );
