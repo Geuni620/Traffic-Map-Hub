@@ -6,6 +6,7 @@ import { createClient } from '@/utils/supabase/server';
 
 type HighwayPositionRow = Tables<'highway-position'>;
 type SeoulTrafficPositionRow = Tables<'seoul-traffic-position'>;
+type IncheonTrafficPositionRow = Tables<'incheon-traffic-position'>;
 
 type WithSource<T, SourceType extends string> = T & { source: SourceType };
 type HighwayPositionWithSource = WithSource<HighwayPositionRow, 'highway'>;
@@ -13,9 +14,17 @@ type SeoulTrafficPositionWithSource = WithSource<
   SeoulTrafficPositionRow,
   'seoul'
 >;
+type IncheonTrafficPositionWithSource = WithSource<
+  IncheonTrafficPositionRow,
+  'incheon'
+>;
 
 export type MapContainerProps = {
-  data: (HighwayPositionWithSource | SeoulTrafficPositionWithSource)[];
+  data: (
+    | HighwayPositionWithSource
+    | SeoulTrafficPositionWithSource
+    | IncheonTrafficPositionWithSource
+  )[];
 };
 
 export default async function Index() {
