@@ -11,7 +11,7 @@ export interface Database {
     Tables: {
       'highway-position': {
         Row: {
-          AADT: string | null;
+          '2022_aadt': number | null;
           id: number;
           XCODE: number | null;
           YCODE: number | null;
@@ -23,7 +23,7 @@ export interface Database {
           지점번호: string | null;
         };
         Insert: {
-          AADT?: string | null;
+          '2022_aadt'?: number | null;
           id?: number;
           XCODE?: number | null;
           YCODE?: number | null;
@@ -35,7 +35,7 @@ export interface Database {
           지점번호?: string | null;
         };
         Update: {
-          AADT?: string | null;
+          '2022_aadt'?: number | null;
           id?: number;
           XCODE?: number | null;
           YCODE?: number | null;
@@ -50,23 +50,23 @@ export interface Database {
       };
       'incheon-traffic-position': {
         Row: {
+          '2022_aadt': number | null;
           XCODE: number | null;
           YCODE: number | null;
-          '이륜차 제외': string | null;
           지점명: string | null;
           지점번호: string | null;
         };
         Insert: {
+          '2022_aadt'?: number | null;
           XCODE?: number | null;
           YCODE?: number | null;
-          '이륜차 제외'?: string | null;
           지점명?: string | null;
           지점번호?: string | null;
         };
         Update: {
+          '2022_aadt'?: number | null;
           XCODE?: number | null;
           YCODE?: number | null;
-          '이륜차 제외'?: string | null;
           지점명?: string | null;
           지점번호?: string | null;
         };
@@ -74,31 +74,31 @@ export interface Database {
       };
       'seoul-traffic-position': {
         Row: {
+          '2022_aadt': number | null;
+          position: string | null;
           XCODE: number | null;
           YCODE: number | null;
           '유입 방향': string | null;
           유출방향: string | null;
           주소: string | null;
-          지점명칭: string | null;
-          지점번호: string | null;
         };
         Insert: {
+          '2022_aadt'?: number | null;
+          position?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
           '유입 방향'?: string | null;
           유출방향?: string | null;
           주소?: string | null;
-          지점명칭?: string | null;
-          지점번호?: string | null;
         };
         Update: {
+          '2022_aadt'?: number | null;
+          position?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
           '유입 방향'?: string | null;
           유출방향?: string | null;
           주소?: string | null;
-          지점명칭?: string | null;
-          지점번호?: string | null;
         };
         Relationships: [];
       };
