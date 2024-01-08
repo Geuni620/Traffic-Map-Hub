@@ -6,13 +6,10 @@ import { LOCATION } from 'constant/geo-location';
 import Script from 'next/script';
 import { useState } from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
+import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
-
-  const formatNumber = (num: number) => {
-    return new Intl.NumberFormat().format(num);
-  };
 
   return (
     <>
@@ -28,10 +25,10 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
         onZoomChanged={(map) => setZoomLevel(map.getLevel())}
       >
         {zoomLevel < 10 &&
-          data.map((item, index) => {
+          data.slice(0, 100).map((item, index) => {
             if (item.XCODE && item.YCODE) {
               return (
-                <CustomOverlayMap
+                <MapMarker
                   key={index}
                   position={{
                     lat: item.XCODE as number,
@@ -50,8 +47,17 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                     },
                   }}
                 >
-                  <Badge>{formatNumber(item['2022_aadt'])}</Badge>
-                </CustomOverlayMap>
+                  <CustomOverlayMap
+                    position={{
+                      lat: item.XCODE as number,
+                      lng: item.YCODE as number,
+                    }}
+                    xAnchor={0.5}
+                    yAnchor={2.3}
+                  >
+                    <Badge>{formatNumberWithCommas(item['2022_aadt'])}</Badge>
+                  </CustomOverlayMap>
+                </MapMarker>
               );
             }
             return null;
