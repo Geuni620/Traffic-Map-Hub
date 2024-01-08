@@ -4,7 +4,7 @@ import { type MapContainerProps } from 'app/page';
 import { LOCATION } from 'constant/geo-location';
 import Script from 'next/script';
 import { useState } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
@@ -23,7 +23,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
         onZoomChanged={(map) => setZoomLevel(map.getLevel())}
       >
         {zoomLevel < 10 &&
-          data.map((item, index) => {
+          data.slice(0, 100).map((item, index) => {
             if (item.XCODE && item.YCODE) {
               return (
                 <MapMarker
@@ -45,7 +45,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                     },
                   }}
                 >
-                  {/* 마커 클릭 시 표시될 내용 (필요한 경우 수정) */}
+                  {/* {item['2022_aadt']} */}
                 </MapMarker>
               );
             }

@@ -35,6 +35,7 @@ export default async function Index() {
     .from('highway-position')
     .select('*')
     .returns<HighwayPositionRow[]>();
+
   const { data: seoulData } = await supabase
     .from('seoul-traffic-position')
     .select('*')
