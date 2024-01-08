@@ -4,12 +4,13 @@ import { Badge } from 'app/components/ui/badge';
 import { type MapContainerProps } from 'app/page';
 import { LOCATION } from 'constant/geo-location';
 import Script from 'next/script';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
+  const markerRef = useRef(null);
 
   return (
     <>
@@ -28,26 +29,28 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
           data.slice(0, 100).map((item, index) => {
             if (item.XCODE && item.YCODE) {
               return (
-                <MapMarker
-                  key={index}
-                  position={{
-                    lat: item.XCODE as number,
-                    lng: item.YCODE as number,
-                  }}
-                  image={{
-                    src:
-                      item.source === 'highway'
-                        ? '/images/h-marker.png'
-                        : item.source === 'seoul'
-                          ? '/images/s-marker.png'
-                          : '/images/i-marker.png',
-                    size: {
-                      width: 25,
-                      height: 25,
-                    },
-                  }}
-                >
+                <>
+                  <MapMarker
+                    key={index}
+                    position={{
+                      lat: item.XCODE as number,
+                      lng: item.YCODE as number,
+                    }}
+                    image={{
+                      src:
+                        item.source === 'highway'
+                          ? '/images/h-marker.png'
+                          : item.source === 'seoul'
+                            ? '/images/s-marker.png'
+                            : '/images/i-marker.png',
+                      size: {
+                        width: 25,
+                        height: 25,
+                      },
+                    }}
+                  />
                   <CustomOverlayMap
+                    ref={markerRef}
                     position={{
                       lat: item.XCODE as number,
                       lng: item.YCODE as number,
@@ -57,7 +60,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                   >
                     <Badge>{formatNumberWithCommas(item['2022_aadt'])}</Badge>
                   </CustomOverlayMap>
-                </MapMarker>
+                </>
               );
             }
             return null;
