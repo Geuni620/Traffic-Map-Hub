@@ -1,5 +1,6 @@
 'use client';
 
+import { Badge } from 'app/components/ui/badge';
 import { type MapContainerProps } from 'app/page';
 import { LOCATION } from 'constant/geo-location';
 import Script from 'next/script';
@@ -8,6 +9,10 @@ import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
+
+  const formatNumber = (num: number) => {
+    return new Intl.NumberFormat().format(num);
+  };
 
   return (
     <>
@@ -23,10 +28,10 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
         onZoomChanged={(map) => setZoomLevel(map.getLevel())}
       >
         {zoomLevel < 10 &&
-          data.slice(0, 100).map((item, index) => {
+          data.map((item, index) => {
             if (item.XCODE && item.YCODE) {
               return (
-                <MapMarker
+                <CustomOverlayMap
                   key={index}
                   position={{
                     lat: item.XCODE as number,
@@ -45,8 +50,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                     },
                   }}
                 >
-                  {/* {item['2022_aadt']} */}
-                </MapMarker>
+                  <Badge>{formatNumber(item['2022_aadt'])}</Badge>
+                </CustomOverlayMap>
               );
             }
             return null;
