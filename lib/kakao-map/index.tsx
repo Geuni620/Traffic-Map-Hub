@@ -4,13 +4,19 @@ import { Badge } from 'app/components/ui/badge';
 import { type MapContainerProps } from 'app/page';
 import { LOCATION } from 'constant/geo-location';
 import Script from 'next/script';
-import { useRef, useState } from 'react';
-import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
+import { useState } from 'react';
+import {
+  CustomOverlayMap,
+  Map,
+  MapMarker,
+  MarkerClusterer,
+} from 'react-kakao-maps-sdk';
 import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
-  const [zoomLevel, setZoomLevel] = useState(3);
-  const markerRef = useRef(null);
+  const [zoomLevel, setZoomLevel] = useState<number>(10);
+
+  console.log(zoomLevel);
 
   return (
     <>
@@ -22,11 +28,11 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
       <Map
         center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
         style={{ width: '100%', height: '100vh' }}
-        level={3}
+        level={12}
         onZoomChanged={(map) => setZoomLevel(map.getLevel())}
       >
-        {zoomLevel < 10 &&
-          data.slice(0, 100).map((item, index) => {
+        <MarkerClusterer averageCenter={false} minLevel={8}>
+          {data.map((item, index) => {
             if (item.XCODE && item.YCODE) {
               return (
                 <>
@@ -50,7 +56,6 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                     }}
                   />
                   <CustomOverlayMap
-                    ref={markerRef}
                     position={{
                       lat: item.XCODE as number,
                       lng: item.YCODE as number,
@@ -63,8 +68,10 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                 </>
               );
             }
+
             return null;
           })}
+        </MarkerClusterer>
       </Map>
     </>
   );
