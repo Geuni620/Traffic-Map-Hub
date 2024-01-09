@@ -17,6 +17,7 @@
     "geist": "^1.0.0",
     "lucide-react": "^0.307.0",
     "next": "latest",
+    "open-color": "^1.9.1",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
