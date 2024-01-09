@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "eslint": "eslint ./ --ext .ts,.tsx,.js,.jsx --fix"
+    "eslint": "eslint ./ --ext .ts,.tsx,.js,.jsx --fix",
+    "deploy": "vercel --prod"
   },
   "dependencies": {
     "@supabase/ssr": "latest",
