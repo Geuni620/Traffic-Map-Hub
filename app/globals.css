@@ -95,3 +95,16 @@
   justify-content: center;
   gap: 0.25rem;
 }
+
+/* Badge */
+.badge-type {
+  border: 1px solid white;
+  background-color: white;
+  font-weight: 800;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.badge-label {
+  padding: 0.5rem;
+}

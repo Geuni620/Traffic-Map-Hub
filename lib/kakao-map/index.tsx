@@ -4,7 +4,6 @@ import { type MapContainerProps } from 'app/page';
 import { RadioButtonHandler } from 'components/common/radio-wrapper';
 import { Badge } from 'components/ui/badge';
 import { LOCATION } from 'constant/geo-location';
-import Script from 'next/script';
 import { Fragment, useState } from 'react';
 import {
   CustomOverlayMap,
@@ -13,6 +12,7 @@ import {
   MarkerClusterer,
 } from 'react-kakao-maps-sdk';
 import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
+import { formatType } from 'utils/formatType';
 import { getTrafficColor } from 'utils/getTrafficColor';
 
 export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon';
@@ -30,11 +30,6 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
 
   return (
     <>
-      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
-      <Script
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
-        strategy="beforeInteractive"
-      />
       <RadioButtonHandler
         selectedCategory={selectedCategory}
         handleCategoryChange={handleCategoryChange}
@@ -45,7 +40,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
           level={12}
         >
           <MarkerClusterer gridSize={300} averageCenter={false} minLevel={8}>
-            {filteredData.map((item, index) => {
+            {filteredData.map((item, index: number) => {
               if (item.XCODE && item.YCODE) {
                 const badgeColor = getTrafficColor(item['2022_aadt']);
 
@@ -75,10 +70,25 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                         lng: item.YCODE as number,
                       }}
                       xAnchor={0.5}
-                      yAnchor={2.3}
+                      yAnchor={2.0}
                     >
-                      <Badge style={{ backgroundColor: badgeColor }}>
-                        {formatNumberWithCommas(item['2022_aadt'])}
+                      <Badge
+                        className="p-0"
+                        style={{
+                          backgroundColor: badgeColor,
+                        }}
+                      >
+                        <p
+                          className="badge-type"
+                          style={{
+                            color: formatType(item?.type).color,
+                          }}
+                        >
+                          {formatType(item.type).label}
+                        </p>
+                        <p className="badge-label">
+                          {formatNumberWithCommas(item['2022_aadt'])}
+                        </p>
                       </Badge>
                     </CustomOverlayMap>
                   </Fragment>

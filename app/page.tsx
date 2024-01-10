@@ -8,23 +8,15 @@ type HighwayPositionRow = Tables<'highway-position'>;
 type SeoulTrafficPositionRow = Tables<'seoul-traffic-position'>;
 type IncheonTrafficPositionRow = Tables<'incheon-traffic-position'>;
 
-type WithSource<T, SourceType extends string> = T & { source: SourceType };
-type HighwayPositionWithSource = WithSource<HighwayPositionRow, 'highway'>;
-type SeoulTrafficPositionWithSource = WithSource<
-  SeoulTrafficPositionRow,
-  'seoul'
->;
-type IncheonTrafficPositionWithSource = WithSource<
-  IncheonTrafficPositionRow,
-  'incheon'
->;
+type WithType<T> = T & { type?: string; source: string };
+
+export type TrafficPositionWithSource =
+  | WithType<HighwayPositionRow>
+  | WithType<SeoulTrafficPositionRow>
+  | WithType<IncheonTrafficPositionRow>;
 
 export type MapContainerProps = {
-  data: (
-    | HighwayPositionWithSource
-    | SeoulTrafficPositionWithSource
-    | IncheonTrafficPositionWithSource
-  )[];
+  data: TrafficPositionWithSource[];
 };
 
 export default async function Index() {
