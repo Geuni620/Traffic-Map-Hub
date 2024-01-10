@@ -30,22 +30,7 @@ export type MapContainerProps = {
 export default async function Index() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-
-  // const { data: highwayData } = await supabase
-  //   .from('highway-position')
-  //   .select('*')
-  //   .returns<HighwayPositionRow[]>();
-
-  // const { data: seoulData } = await supabase
-  //   .from('seoul-traffic-position')
-  //   .select('*')
-  //   .returns<SeoulTrafficPositionRow[]>();
-
-  // const { data: incheonData } = await supabase
-  //   .from('incheon-traffic-position')
-  //   .select('*');
-  console.time();
-  const [highwayData, seoulData, incheonData] = await Promise.all([
+  const [highway, seoul, incheon] = await Promise.all([
     supabase
       .from('highway-position')
       .select('*')
@@ -59,20 +44,6 @@ export default async function Index() {
       .select('*')
       .then((res) => res.data),
   ]);
-  console.timeEnd();
-
-  const highway = highwayData?.map((item) => ({
-    ...item,
-    source: 'highway' as const,
-  }));
-  const seoul = seoulData?.map((item) => ({
-    ...item,
-    source: 'seoul' as const,
-  }));
-  const incheon = incheonData?.map((item) => ({
-    ...item,
-    source: 'incheon' as const,
-  }));
 
   const combinedData = [
     ...(highway || []),
