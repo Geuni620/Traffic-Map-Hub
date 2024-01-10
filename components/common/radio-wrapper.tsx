@@ -23,14 +23,12 @@ export const RadioButtonHandler: React.FC<RadioButtonHandlerProps> = ({
         name="traffic-filter"
         className="radio-group"
       >
-        {REGION.map(({ label, value }) => {
-          return (
-            <div key={value} className="radio-item-wrapper">
-              <RadioGroupItem value={value} id={value} />
-              <Label htmlFor={value}>{label}</Label>
-            </div>
-          );
-        })}
+        {REGION.map(({ label, value }) => (
+          <div key={value} className="radio-item-wrapper">
+            <RadioGroupItem value={value} id={value} />
+            <Label htmlFor={value}>{label}</Label>
+          </div>
+        ))}
       </RadioGroup>
       {children}
     </Fragment>
