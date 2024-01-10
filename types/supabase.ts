@@ -13,9 +13,10 @@ export interface Database {
         Row: {
           '2022_aadt': number | null;
           id: number;
+          source: string | null;
+          type: string | null;
           XCODE: number | null;
           YCODE: number | null;
-          구분: string | null;
           '도/시': string | null;
           도로종류: string | null;
           '시/군': string | null;
@@ -25,9 +26,10 @@ export interface Database {
         Insert: {
           '2022_aadt'?: number | null;
           id?: number;
+          source?: string | null;
+          type?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
-          구분?: string | null;
           '도/시'?: string | null;
           도로종류?: string | null;
           '시/군'?: string | null;
@@ -37,9 +39,10 @@ export interface Database {
         Update: {
           '2022_aadt'?: number | null;
           id?: number;
+          source?: string | null;
+          type?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
-          구분?: string | null;
           '도/시'?: string | null;
           도로종류?: string | null;
           '시/군'?: string | null;
@@ -51,6 +54,7 @@ export interface Database {
       'incheon-traffic-position': {
         Row: {
           '2022_aadt': number | null;
+          source: string | null;
           XCODE: number | null;
           YCODE: number | null;
           지점명: string | null;
@@ -58,6 +62,7 @@ export interface Database {
         };
         Insert: {
           '2022_aadt'?: number | null;
+          source?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
           지점명?: string | null;
@@ -65,6 +70,7 @@ export interface Database {
         };
         Update: {
           '2022_aadt'?: number | null;
+          source?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
           지점명?: string | null;
@@ -76,6 +82,7 @@ export interface Database {
         Row: {
           '2022_aadt': number | null;
           position: string | null;
+          source: string | null;
           XCODE: number | null;
           YCODE: number | null;
           '유입 방향': string | null;
@@ -85,6 +92,7 @@ export interface Database {
         Insert: {
           '2022_aadt'?: number | null;
           position?: string | null;
+          source?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
           '유입 방향'?: string | null;
@@ -94,6 +102,7 @@ export interface Database {
         Update: {
           '2022_aadt'?: number | null;
           position?: string | null;
+          source?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
           '유입 방향'?: string | null;
