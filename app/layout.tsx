@@ -1,5 +1,6 @@
 import './globals.css';
 
+import { Analytics } from 'components/analytics';
 import { GeistSans } from 'geist/font/sans';
 import Script from 'next/script';
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
           defer
         />
+        <Analytics />
         <main className="flex min-h-screen flex-col items-center">
           {children}
         </main>
