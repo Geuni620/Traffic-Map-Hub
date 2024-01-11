@@ -16,6 +16,8 @@ import { formatType } from 'utils/formatType';
 import { getMarkerImage } from 'utils/getMarkerImage';
 import { getTrafficColor } from 'utils/getTrafficColor';
 
+import { LegendViewWrapper } from '@/components/common/legend-wrapper';
+
 export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon';
 export type RoadType = 'expressway' | 'national' | 'provincial' | 'local';
 
@@ -32,74 +34,76 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
 
   return (
     <>
-      <RadioButtonHandler
-        selectedCategory={selectedCategory}
-        handleCategoryChange={handleCategoryChange}
-      >
-        <Map
-          center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
-          style={{ width: '100%', height: '100vh' }}
-          level={12}
+      <LegendViewWrapper>
+        <RadioButtonHandler
+          selectedCategory={selectedCategory}
+          handleCategoryChange={handleCategoryChange}
         >
-          <MarkerClusterer gridSize={300} averageCenter={false} minLevel={8}>
-            {filteredData.map((item, index: number) => {
-              if (item.XCODE && item.YCODE) {
-                const badgeColor = getTrafficColor(item['2022_aadt']);
-                const markerImageSrc = getMarkerImage(
-                  item.source,
-                  item.road_type,
-                );
+          <Map
+            center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
+            style={{ width: '100%', height: '100vh' }}
+            level={12}
+          >
+            <MarkerClusterer gridSize={300} averageCenter={false} minLevel={8}>
+              {filteredData.map((item, index: number) => {
+                if (item.XCODE && item.YCODE) {
+                  const badgeColor = getTrafficColor(item['2022_aadt']);
+                  const markerImageSrc = getMarkerImage(
+                    item.source,
+                    item.road_type,
+                  );
 
-                return (
-                  <Fragment key={index}>
-                    <MapMarker
-                      position={{
-                        lat: item.XCODE as number,
-                        lng: item.YCODE as number,
-                      }}
-                      image={{
-                        src: markerImageSrc,
-                        size: {
-                          width: 40,
-                          height: 40,
-                        },
-                      }}
-                    />
-                    <CustomOverlayMap
-                      position={{
-                        lat: item.XCODE as number,
-                        lng: item.YCODE as number,
-                      }}
-                      xAnchor={0.5}
-                      yAnchor={2.2}
-                    >
-                      <Badge
-                        className="p-0"
-                        style={{
-                          backgroundColor: badgeColor,
+                  return (
+                    <Fragment key={index}>
+                      <MapMarker
+                        position={{
+                          lat: item.XCODE as number,
+                          lng: item.YCODE as number,
                         }}
+                        image={{
+                          src: markerImageSrc,
+                          size: {
+                            width: 40,
+                            height: 40,
+                          },
+                        }}
+                      />
+                      <CustomOverlayMap
+                        position={{
+                          lat: item.XCODE as number,
+                          lng: item.YCODE as number,
+                        }}
+                        xAnchor={0.5}
+                        yAnchor={2.2}
                       >
-                        <p
-                          className="badge-type"
+                        <Badge
+                          className="p-0"
                           style={{
-                            color: formatType(item?.type).color,
+                            backgroundColor: badgeColor,
                           }}
                         >
-                          {formatType(item.type).label}
-                        </p>
-                        <p className="badge-label">
-                          {formatNumberWithCommas(item['2022_aadt'])}
-                        </p>
-                      </Badge>
-                    </CustomOverlayMap>
-                  </Fragment>
-                );
-              }
-              return null;
-            })}
-          </MarkerClusterer>
-        </Map>
-      </RadioButtonHandler>
+                          <p
+                            className="badge-type"
+                            style={{
+                              color: formatType(item?.type).color,
+                            }}
+                          >
+                            {formatType(item.type).label}
+                          </p>
+                          <p className="badge-label">
+                            {formatNumberWithCommas(item['2022_aadt'])}
+                          </p>
+                        </Badge>
+                      </CustomOverlayMap>
+                    </Fragment>
+                  );
+                }
+                return null;
+              })}
+            </MarkerClusterer>
+          </Map>
+        </RadioButtonHandler>
+      </LegendViewWrapper>
     </>
   );
 };

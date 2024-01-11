@@ -77,8 +77,9 @@
 
 /* radio button */
 .radio-group {
-  position: absolute;
+  position: fixed;
   display: flex;
+  width: 15rem;
   top: 0;
   left: 0;
   z-index: 20;
@@ -107,4 +108,15 @@
 
 .badge-label {
   padding: 0.5rem;
+}
+
+/* Legend */
+.legend-container {
+  position: fixed;
+  margin: 0.5rem;
+  width: 15rem;
+  height: auto;
+  z-index: 20;
+  left: 0;
+  top: 4rem;
 }
