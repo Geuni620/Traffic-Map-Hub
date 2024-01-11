@@ -13,6 +13,7 @@ export interface Database {
         Row: {
           '2022_aadt': number | null;
           id: number;
+          road_type: string | null;
           source: string | null;
           type: string | null;
           XCODE: number | null;
@@ -26,6 +27,7 @@ export interface Database {
         Insert: {
           '2022_aadt'?: number | null;
           id?: number;
+          road_type?: string | null;
           source?: string | null;
           type?: string | null;
           XCODE?: number | null;
@@ -39,6 +41,7 @@ export interface Database {
         Update: {
           '2022_aadt'?: number | null;
           id?: number;
+          road_type?: string | null;
           source?: string | null;
           type?: string | null;
           XCODE?: number | null;
