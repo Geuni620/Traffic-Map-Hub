@@ -6,7 +6,7 @@ export const MarkerLegendItem: React.FC<{ label: string; image: string }> = ({
   image,
 }) => (
   <div className="flex items-center gap-2">
-    <Image src={image} width={30} height={30} alt="라벨 이미지" />
+    <Image src={image} width={30} height={30} alt="map marker image" />
     <Label>{label}</Label>
   </div>
 );

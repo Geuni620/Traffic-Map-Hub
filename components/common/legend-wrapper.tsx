@@ -2,8 +2,10 @@ import { Hr } from 'components/common/hr';
 import { MarkerLegendItem } from 'components/legend/marker-item';
 import { TrafficColorLegendItem } from 'components/legend/traffic-item';
 import { Card, CardContent } from 'components/ui/card';
-import oc from 'open-color';
+import { MARKER_ITEM } from 'constant/marker';
 import { Fragment } from 'react';
+
+import { TRAFFIC_RANGE } from '@/constant/traffic';
 
 interface LegendWrapperProps {
   children: React.ReactNode;
@@ -12,36 +14,37 @@ interface LegendWrapperProps {
 export const LegendViewWrapper: React.FC<LegendWrapperProps> = ({
   children,
 }) => {
+  const createTrafficRangeLabel = (limit: number) => {
+    switch (limit) {
+      case 10000:
+        return '0 ~ 1만';
+      case 50000:
+        return '1만 ~ 5만';
+      case 100000:
+        return '5만 ~ 10만';
+      default:
+        return '10만 이상';
+    }
+  };
+
   return (
     <Fragment>
       <Card className="legend-container">
         <CardContent className="p-6">
           <div className="space-y-1">
-            <MarkerLegendItem
-              label="고속국도"
-              image="/images/h-marker-expressway.png"
-            />
-            <MarkerLegendItem
-              label="일반국도"
-              image="/images/h-marker-national.png"
-            />
-            <MarkerLegendItem
-              label="지방도"
-              image="/images/h-marker-provincial.png"
-            />
-            <MarkerLegendItem
-              label="국가지원지방도"
-              image="/images/h-marker-local.png"
-            />
+            {MARKER_ITEM.map(({ label, image }) => (
+              <MarkerLegendItem key={label} label={label} image={image} />
+            ))}
           </div>
-
           <Hr />
-
           <div className="space-y-1">
-            <TrafficColorLegendItem label="0 ~ 1만" color={oc.green[5]} />
-            <TrafficColorLegendItem label="1만 ~ 5만" color={oc.blue[5]} />
-            <TrafficColorLegendItem label="5만 ~ 10만" color={oc.orange[5]} />
-            <TrafficColorLegendItem label="10만 이상" color={oc.red[6]} />
+            {TRAFFIC_RANGE.map((range, index) => (
+              <TrafficColorLegendItem
+                key={index}
+                label={createTrafficRangeLabel(range.limit)}
+                color={range.color}
+              />
+            ))}
           </div>
         </CardContent>
       </Card>
