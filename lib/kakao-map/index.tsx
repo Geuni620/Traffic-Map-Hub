@@ -54,13 +54,13 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                       image={{
                         src:
                           item.source === 'highway'
-                            ? '/images/h-marker.png'
+                            ? '/images/h-marker-expressway.png'
                             : item.source === 'seoul'
                               ? '/images/s-marker.png'
                               : '/images/i-marker.png',
                         size: {
-                          width: 25,
-                          height: 25,
+                          width: 40,
+                          height: 40,
                         },
                       }}
                     />
@@ -70,7 +70,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                         lng: item.YCODE as number,
                       }}
                       xAnchor={0.5}
-                      yAnchor={2.0}
+                      yAnchor={2.2}
                     >
                       <Badge
                         className="p-0"
