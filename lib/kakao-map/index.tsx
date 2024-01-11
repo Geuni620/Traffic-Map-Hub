@@ -13,9 +13,11 @@ import {
 } from 'react-kakao-maps-sdk';
 import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
 import { formatType } from 'utils/formatType';
+import { getMarkerImage } from 'utils/getMarkerImage';
 import { getTrafficColor } from 'utils/getTrafficColor';
 
 export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon';
+export type RoadType = 'expressway' | 'national' | 'provincial' | 'local';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -43,6 +45,10 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
             {filteredData.map((item, index: number) => {
               if (item.XCODE && item.YCODE) {
                 const badgeColor = getTrafficColor(item['2022_aadt']);
+                const markerImageSrc = getMarkerImage(
+                  item.source,
+                  item.road_type,
+                );
 
                 return (
                   <Fragment key={index}>
@@ -52,12 +58,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                         lng: item.YCODE as number,
                       }}
                       image={{
-                        src:
-                          item.source === 'highway'
-                            ? '/images/h-marker-expressway.png'
-                            : item.source === 'seoul'
-                              ? '/images/s-marker.png'
-                              : '/images/i-marker.png',
+                        src: markerImageSrc,
                         size: {
                           width: 40,
                           height: 40,

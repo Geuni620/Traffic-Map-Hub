@@ -1,4 +1,5 @@
 import { MapContainer } from 'lib/kakao-map';
+import { type RoadType } from 'lib/kakao-map';
 import { cookies } from 'next/headers';
 import { Tables } from 'types/supabase';
 
@@ -8,7 +9,7 @@ type HighwayPositionRow = Tables<'highway-position'>;
 type SeoulTrafficPositionRow = Tables<'seoul-traffic-position'>;
 type IncheonTrafficPositionRow = Tables<'incheon-traffic-position'>;
 
-type WithType<T> = T & { type?: string; source: string };
+type WithType<T> = T & { type?: string; source: string; road_type?: RoadType };
 
 export type TrafficPositionWithSource =
   | WithType<HighwayPositionRow>
