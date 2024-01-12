@@ -43,6 +43,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
             center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
             style={{ width: '100%', height: '100vh' }}
             level={12}
+            maxLevel={12}
           >
             <MarkerClusterer gridSize={300} averageCenter={false} minLevel={8}>
               {filteredData.map((item, index: number) => {
