@@ -45,7 +45,18 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
             level={12}
             maxLevel={12}
           >
-            <MarkerClusterer gridSize={300} averageCenter={false} minLevel={8}>
+            <MarkerClusterer
+              texts={(size) => {
+                /**
+                 * MapMarker와 CustomOverlayMap을 같이 사용할 경우
+                 * 둘이 합쳐진 수치가 렌더링 됨
+                 */
+                return (size / 2).toString();
+              }}
+              gridSize={300}
+              averageCenter={true}
+              minLevel={8}
+            >
               {filteredData.map((item, index: number) => {
                 if (item.XCODE && item.YCODE) {
                   const badgeColor = getTrafficColor(item['2022_aadt']);
