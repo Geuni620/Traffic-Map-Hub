@@ -98,16 +98,8 @@
 }
 
 /* Badge */
-.badge-type {
-  border: 1px solid white;
-  background-color: white;
-  font-weight: 800;
-  padding: 0.5rem;
-  border-radius: 50%;
-}
-
 .badge-label {
-  padding: 0.5rem;
+  padding: 0.2rem 0.5rem;
 }
 
 /* Legend */

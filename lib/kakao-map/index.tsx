@@ -64,8 +64,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                         image={{
                           src: markerImageSrc,
                           size: {
-                            width: 40,
-                            height: 40,
+                            width: 25,
+                            height: 25,
                           },
                         }}
                       />
@@ -75,7 +75,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                           lng: item.YCODE as number,
                         }}
                         xAnchor={0.5}
-                        yAnchor={2.2}
+                        yAnchor={2.0}
                       >
                         <Badge
                           className="p-0"
@@ -83,15 +83,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                             backgroundColor: badgeColor,
                           }}
                         >
-                          <p
-                            className="badge-type"
-                            style={{
-                              color: formatType(item?.type).color,
-                            }}
-                          >
-                            {formatType(item.type).label}
-                          </p>
                           <p className="badge-label">
+                            {formatType(item.type).label}{' '}
                             {formatNumberWithCommas(item['2022_aadt'])}
                           </p>
                         </Badge>
