@@ -107,7 +107,7 @@
 /* Legend */
 .legend-container {
   position: fixed;
-  margin: 0.5rem;
+  margin: 1.5rem 0.5rem;
   width: 16rem;
   height: auto;
   z-index: 20;
