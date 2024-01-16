@@ -18,7 +18,7 @@ import { getTrafficColor } from 'utils/getTrafficColor';
 
 import { LegendViewWrapper } from '@/components/common/legend-wrapper';
 
-export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon';
+export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon' | 'toll';
 export type RoadType = 'expressway' | 'national' | 'provincial' | 'local';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
@@ -59,7 +59,9 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
             >
               {filteredData.map((item, index: number) => {
                 if (item.XCODE && item.YCODE) {
-                  const badgeColor = getTrafficColor(item['2022_aadt']);
+                  const aadtKey =
+                    item.source === 'toll' ? '2021_aadt' : '2022_aadt';
+                  const badgeColor = getTrafficColor(item[aadtKey]);
                   const markerImageSrc = getMarkerImage(
                     item.source,
                     item.road_type,
@@ -96,7 +98,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
                         >
                           <p className="badge-label">
                             {formatType(item.type).label}{' '}
-                            {formatNumberWithCommas(item['2022_aadt'])}
+                            {formatNumberWithCommas(item[aadtKey])}
                           </p>
                         </Badge>
                       </CustomOverlayMap>

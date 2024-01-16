@@ -31,4 +31,8 @@ export const REGION: Region[] = [
     label: '인천',
     value: 'incheon',
   },
+  {
+    label: '유료도로',
+    value: 'toll',
+  },
 ];

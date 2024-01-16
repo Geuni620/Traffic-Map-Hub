@@ -114,6 +114,33 @@ export interface Database {
         };
         Relationships: [];
       };
+      'toll-road': {
+        Row: {
+          '2021_aadt': number | null;
+          id: number;
+          source: string | null;
+          XCODE: number | null;
+          YCODE: number | null;
+          구분: string | null;
+        };
+        Insert: {
+          '2021_aadt'?: number | null;
+          id?: number;
+          source?: string | null;
+          XCODE?: number | null;
+          YCODE?: number | null;
+          구분?: string | null;
+        };
+        Update: {
+          '2021_aadt'?: number | null;
+          id?: number;
+          source?: string | null;
+          XCODE?: number | null;
+          YCODE?: number | null;
+          구분?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

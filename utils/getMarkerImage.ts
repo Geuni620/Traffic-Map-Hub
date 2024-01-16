@@ -20,6 +20,8 @@ export const getMarkerImage = (source: string, roadType?: RoadType): string => {
       return '/images/s-marker.png';
     case 'incheon':
       return '/images/i-marker.png';
+    case 'toll':
+      return '/images/t-marker.png';
     default:
       return '/images/default-marker.png';
   }

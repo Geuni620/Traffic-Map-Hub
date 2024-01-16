@@ -9,7 +9,13 @@ type HighwayPositionRow = Tables<'highway-position'>;
 type SeoulTrafficPositionRow = Tables<'seoul-traffic-position'>;
 type IncheonTrafficPositionRow = Tables<'incheon-traffic-position'>;
 
-type WithType<T> = T & { type?: string; source: string; road_type?: RoadType };
+type WithType<T> = T & {
+  type?: string;
+  source: string;
+  road_type?: RoadType;
+  '2021_aadt': number;
+  '2022_aadt': number;
+};
 
 export type TrafficPositionWithSource =
   | WithType<HighwayPositionRow>
@@ -23,7 +29,7 @@ export type MapContainerProps = {
 export default async function Index() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const [highway, seoul, incheon] = await Promise.all([
+  const [highway, seoul, incheon, tollRoad] = await Promise.all([
     supabase
       .from('highway-position')
       .select('*')
@@ -36,12 +42,17 @@ export default async function Index() {
       .from('incheon-traffic-position')
       .select('*')
       .then((res) => res.data),
+    supabase
+      .from('toll-road')
+      .select('*')
+      .then((res) => res.data),
   ]);
 
   const combinedData = [
     ...(highway || []),
     ...(seoul || []),
     ...(incheon || []),
+    ...(tollRoad || []),
   ];
 
   return (
