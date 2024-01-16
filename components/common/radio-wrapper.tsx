@@ -1,15 +1,9 @@
+import { TooltipWrapper } from 'components/common/tooltip-wrapper';
 import { Label } from 'components/ui/label';
 import { RadioGroup, RadioGroupItem } from 'components/ui/radio-group';
 import { REGION } from 'constant/geo-location';
 import { type CategoryFilter } from 'lib/kakao-map';
 import { Fragment } from 'react';
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 interface RadioButtonHandlerProps {
   selectedCategory: string;
@@ -33,19 +27,12 @@ export const RadioButtonHandler: React.FC<RadioButtonHandlerProps> = ({
         {REGION.map(({ label, value }) => (
           <div key={value} className="radio-item-wrapper relative">
             {value === 'toll' ? (
-              <TooltipProvider delayDuration={300}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="flex flex-col  items-center gap-2">
-                      <RadioGroupItem value={value} id={value} />
-                      <Label htmlFor={value}>{label}</Label>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>2021년 기준</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <TooltipWrapper tooltipText="2021년 기준">
+                <div className="flex flex-col items-center gap-2">
+                  <RadioGroupItem value={value} id={value} />
+                  <Label htmlFor={value}>{label}</Label>
+                </div>
+              </TooltipWrapper>
             ) : (
               <>
                 <RadioGroupItem value={value} id={value} />
