@@ -1,14 +1,13 @@
 'use client';
 
 import { type MapContainerProps } from 'app/page';
+import { LegendViewWrapper } from 'components/common/legend-wrapper';
+import { LoadingSpinner } from 'components/common/LoadingSpinner';
 import { RadioButtonHandler } from 'components/common/radio-wrapper';
 import { LOCATION } from 'constant/geo-location';
 import { lazy, Suspense } from 'react';
 import { useState } from 'react';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
-import { BeatLoader } from 'react-spinners';
-
-import { LegendViewWrapper } from '@/components/common/legend-wrapper';
 
 const MapMarkerComp = lazy(() => import('components/map/map-marker'));
 
@@ -51,20 +50,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
               averageCenter={true}
               minLevel={8}
             >
-              <Suspense
-                fallback={
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                    }}
-                  >
-                    <BeatLoader color="#36d7b7" />
-                  </div>
-                }
-              >
+              <Suspense fallback={<LoadingSpinner />}>
                 <MapMarkerComp filteredData={filteredData} />
               </Suspense>
             </MarkerClusterer>
