@@ -1,4 +1,4 @@
-import { TrafficPositionWithSource } from 'app/page';
+import { TrafficHub } from 'app/page';
 import { Badge } from 'components/ui/badge';
 import { Fragment } from 'react';
 import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
@@ -8,24 +8,24 @@ import { getMarkerImage } from 'utils/getMarkerImage';
 import { getTrafficColor } from 'utils/getTrafficColor';
 
 interface MapMarkerProps {
-  filteredData: TrafficPositionWithSource[];
+  filteredData: TrafficHub[];
 }
 
 const MapMarkerComp: React.FC<MapMarkerProps> = ({ filteredData }) => {
   return (
     <>
       {filteredData.map((item, index) => {
-        if (item.XCODE && item.YCODE) {
-          const aadtKey = item.source === 'toll' ? '2021_aadt' : '2022_aadt';
-          const badgeColor = getTrafficColor(item[aadtKey]);
+        if (item.x_code && item.y_code) {
+          const aadtKey = item.source === 'toll' ? 'aadt_2021' : 'aadt_2022';
+          const badgeColor = getTrafficColor(item?.[aadtKey]);
           const markerImageSrc = getMarkerImage(item.source, item.road_type);
 
           return (
             <Fragment key={index}>
               <MapMarker
                 position={{
-                  lat: item.XCODE,
-                  lng: item.YCODE,
+                  lat: item.x_code,
+                  lng: item.y_code,
                 }}
                 image={{
                   src: markerImageSrc,
@@ -37,8 +37,8 @@ const MapMarkerComp: React.FC<MapMarkerProps> = ({ filteredData }) => {
               />
               <CustomOverlayMap
                 position={{
-                  lat: item.XCODE,
-                  lng: item.YCODE,
+                  lat: item.x_code,
+                  lng: item.y_code,
                 }}
                 xAnchor={0.5}
                 yAnchor={2.0}
@@ -50,7 +50,7 @@ const MapMarkerComp: React.FC<MapMarkerProps> = ({ filteredData }) => {
                   }}
                 >
                   <p className="badge-label">
-                    {formatType(item.type).label}{' '}
+                    {formatType(item.traffic_survey_type).label}{' '}
                     {formatNumberWithCommas(item[aadtKey])}
                   </p>
                 </Badge>

@@ -1,6 +1,8 @@
 import { TRAFFIC_RANGE } from 'constant/traffic';
 
-export const getTrafficColor = (trafficVolume: number): string | undefined => {
+export const getTrafficColor = (
+  trafficVolume: number | null,
+): string | undefined => {
   if (!trafficVolume) return;
 
   const matchedRange = TRAFFIC_RANGE.find(

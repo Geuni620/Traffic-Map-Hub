@@ -1,6 +1,7 @@
-import { type RoadType } from '@/lib/kakao-map';
-
-export const getMarkerImage = (source: string, roadType?: RoadType): string => {
+export const getMarkerImage = (
+  source: string | null,
+  roadType: string | null,
+): string => {
   switch (source) {
     case 'highway':
       switch (roadType) {

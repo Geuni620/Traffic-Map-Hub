@@ -9,7 +9,49 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      'highway-position': {
+      traffic_hub: {
+        Row: {
+          aadt_2021: number | null;
+          aadt_2022: number | null;
+          city_county: string | null;
+          id: number;
+          location_id: string | null;
+          region_city: string | null;
+          road_type: string | null;
+          source: string | null;
+          traffic_survey_type: string | null;
+          x_code: number | null;
+          y_code: number | null;
+        };
+        Insert: {
+          aadt_2021?: number | null;
+          aadt_2022?: number | null;
+          city_county?: string | null;
+          id?: number;
+          location_id?: string | null;
+          region_city?: string | null;
+          road_type?: string | null;
+          source?: string | null;
+          traffic_survey_type?: string | null;
+          x_code?: number | null;
+          y_code?: number | null;
+        };
+        Update: {
+          aadt_2021?: number | null;
+          aadt_2022?: number | null;
+          city_county?: string | null;
+          id?: number;
+          location_id?: string | null;
+          region_city?: string | null;
+          road_type?: string | null;
+          source?: string | null;
+          traffic_survey_type?: string | null;
+          x_code?: number | null;
+          y_code?: number | null;
+        };
+        Relationships: [];
+      };
+      교통량정보제공시스템: {
         Row: {
           '2022_aadt': number | null;
           id: number;
@@ -54,34 +96,34 @@ export interface Database {
         };
         Relationships: [];
       };
-      'incheon-traffic-position': {
+      도로업무편람: {
         Row: {
-          '2022_aadt': number | null;
+          '2021_aadt': number | null;
+          id: number;
           source: string | null;
           XCODE: number | null;
           YCODE: number | null;
-          지점명: string | null;
-          지점번호: string | null;
+          구분: string | null;
         };
         Insert: {
-          '2022_aadt'?: number | null;
+          '2021_aadt'?: number | null;
+          id?: number;
           source?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
-          지점명?: string | null;
-          지점번호?: string | null;
+          구분?: string | null;
         };
         Update: {
-          '2022_aadt'?: number | null;
+          '2021_aadt'?: number | null;
+          id?: number;
           source?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
-          지점명?: string | null;
-          지점번호?: string | null;
+          구분?: string | null;
         };
         Relationships: [];
       };
-      'seoul-traffic-position': {
+      서울시: {
         Row: {
           '2022_aadt': number | null;
           position: string | null;
@@ -114,30 +156,30 @@ export interface Database {
         };
         Relationships: [];
       };
-      'toll-road': {
+      인천시: {
         Row: {
-          '2021_aadt': number | null;
-          id: number;
+          '2022_aadt': number | null;
           source: string | null;
           XCODE: number | null;
           YCODE: number | null;
-          구분: string | null;
+          지점명: string | null;
+          지점번호: string | null;
         };
         Insert: {
-          '2021_aadt'?: number | null;
-          id?: number;
+          '2022_aadt'?: number | null;
           source?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
-          구분?: string | null;
+          지점명?: string | null;
+          지점번호?: string | null;
         };
         Update: {
-          '2021_aadt'?: number | null;
-          id?: number;
+          '2022_aadt'?: number | null;
           source?: string | null;
           XCODE?: number | null;
           YCODE?: number | null;
-          구분?: string | null;
+          지점명?: string | null;
+          지점번호?: string | null;
         };
         Relationships: [];
       };
