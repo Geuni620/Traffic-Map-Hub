@@ -1,3 +1,4 @@
+import { get } from 'http';
 import { MapContainer } from 'lib/kakao-map';
 import { type RoadType } from 'lib/kakao-map';
 import { cookies } from 'next/headers';
@@ -26,38 +27,21 @@ export type MapContainerProps = {
   data: TrafficPositionWithSource[];
 };
 
+const getTrafficData = async (supabase) => {
+  const res = await fetch('http://localhost:3000/api/traffic');
+  const data = res.json();
+
+  return data;
+};
+
 export default async function Index() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const [highway, seoul, incheon, tollRoad] = await Promise.all([
-    supabase
-      .from('highway-position')
-      .select('*')
-      .then((res) => res.data),
-    supabase
-      .from('seoul-traffic-position')
-      .select('*')
-      .then((res) => res.data),
-    supabase
-      .from('incheon-traffic-position')
-      .select('*')
-      .then((res) => res.data),
-    supabase
-      .from('toll-road')
-      .select('*')
-      .then((res) => res.data),
-  ]);
-
-  const combinedData = [
-    ...(highway || []),
-    ...(seoul || []),
-    ...(incheon || []),
-    ...(tollRoad || []),
-  ];
+  const allTrafficData = await getTrafficData(supabase);
 
   return (
     <div className="flex w-full flex-col items-center">
-      <MapContainer data={combinedData} />
+      <MapContainer data={allTrafficData} />
     </div>
   );
 }

@@ -14,24 +14,14 @@ export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon' | 'toll';
 export type RoadType = 'expressway' | 'national' | 'provincial' | 'local';
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const handleCategoryChange = (value: CategoryFilter) => {
-    setSelectedCategory(value);
-  };
-
-  const filteredData = data.filter(
-    (item) => selectedCategory === 'all' || item.source === selectedCategory,
+  const [selectedCategories, setSelectedCategories] = useState(
+    new Set<CategoryFilter>(),
   );
+
+  console.log('data', data);
 
   return (
     <>
-      {/* <div className="legend-group">
-        <CheckboxWithLabel id="traffic-filter" label="통계연보" />
-        <CheckboxWithLabel id="traffic-filter" label="서울시" />
-        <CheckboxWithLabel id="traffic-filter" label="인천시" />
-        <CheckboxWithLabel id="traffic-filter" label="도로업무편람('21)" />
-      </div> */}
       <LegendCheckboxManager>
         <Map
           center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
@@ -52,7 +42,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
             minLevel={8}
           >
             <Suspense fallback={<LoadingSpinner />}>
-              <MapMarkerComp filteredData={filteredData} />
+              <MapMarkerComp filteredData={data} />
             </Suspense>
           </MarkerClusterer>
         </Map>
