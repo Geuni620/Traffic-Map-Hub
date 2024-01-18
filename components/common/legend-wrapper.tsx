@@ -29,15 +29,15 @@ export const LegendViewWrapper: React.FC<LegendWrapperProps> = ({
 
   return (
     <Fragment>
-      <Card className="legend-container">
+      <Card className="flex items-center justify-center">
         <CardContent className="p-6">
-          <div className="space-y-1">
+          <div>
             {MARKER_ITEM.map(({ label, image }) => (
               <MarkerLegendItem key={label} label={label} image={image} />
             ))}
           </div>
           <Hr />
-          <div className="space-y-1">
+          <div>
             {TRAFFIC_RANGE.map((range, index) => (
               <TrafficColorLegendItem
                 key={index}

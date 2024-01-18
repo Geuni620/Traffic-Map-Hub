@@ -1,4 +1,5 @@
 import { TooltipWrapper } from 'components/common/tooltip-wrapper';
+import { Checkbox } from 'components/ui/checkbox';
 import { Label } from 'components/ui/label';
 import { RadioGroup, RadioGroupItem } from 'components/ui/radio-group';
 import { REGION } from 'constant/geo-location';
@@ -18,7 +19,8 @@ export const RadioButtonHandler: React.FC<RadioButtonHandlerProps> = ({
 }) => {
   return (
     <Fragment>
-      <RadioGroup
+      <Checkbox />
+      {/* <RadioGroup
         onValueChange={handleCategoryChange}
         defaultValue={selectedCategory}
         name="traffic-filter"
@@ -41,7 +43,7 @@ export const RadioButtonHandler: React.FC<RadioButtonHandlerProps> = ({
             )}
           </div>
         ))}
-      </RadioGroup>
+      </RadioGroup> */}
       {children}
     </Fragment>
   );
