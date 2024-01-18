@@ -1,6 +1,7 @@
 import './globals.css';
 
 import { Analytics } from 'components/analytics';
+import { QueryContext } from 'components/common/query-context';
 import { GeistSans } from 'geist/font/sans';
 import Script from 'next/script';
 
@@ -28,9 +29,11 @@ export default function RootLayout({
           defer
         />
         <Analytics />
-        <main className="flex min-h-screen flex-col items-center">
-          {children}
-        </main>
+        <QueryContext>
+          <main className="flex min-h-screen flex-col items-center">
+            {children}
+          </main>
+        </QueryContext>
       </body>
     </html>
   );

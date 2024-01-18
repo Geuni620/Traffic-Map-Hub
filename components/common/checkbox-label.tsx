@@ -8,10 +8,15 @@ interface CheckboxWithLabelProps {
 export const CheckboxWithLabel: React.FC<CheckboxWithLabelProps> = ({
   id,
   label,
+  onCheckedChange,
 }) => {
+  const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    onCheckedChange(id, e.target.checked);
+  };
+
   return (
     <div className="flex items-center gap-2">
-      <Checkbox id={id} />
+      <Checkbox id={id} onChange={handleChange} />
       <div className="grid gap-1.5 leading-none">
         <label
           htmlFor={id}

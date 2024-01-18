@@ -1,25 +1,21 @@
+// TODO: 여기서 use client 쓰는게 아니라, 하나씩 아래로 내려주자
+
 'use client';
 
-import { type MapContainerProps } from 'app/page';
-import { LoadingSpinner } from 'components/common/LoadingSpinner';
+import { type TrafficHub } from 'app/page';
+import { LoadingSpinner } from 'components/common/loading-spinner';
 import { LegendCheckboxManager } from 'components/legend/checkbox-manager';
 import { LOCATION } from 'constant/location';
 import { lazy, Suspense } from 'react';
-import { useState } from 'react';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 
 const MapMarkerComp = lazy(() => import('components/map/map-marker'));
 
-export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon' | 'toll';
-export type RoadType = 'expressway' | 'national' | 'provincial' | 'local';
+interface MapContainerProps {
+  data: TrafficHub[];
+}
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
-  const [selectedCategories, setSelectedCategories] = useState(
-    new Set<CategoryFilter>(),
-  );
-
-  console.log('data', data);
-
   return (
     <>
       <LegendCheckboxManager>
