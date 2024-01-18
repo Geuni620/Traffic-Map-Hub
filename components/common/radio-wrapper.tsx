@@ -2,7 +2,7 @@ import { TooltipWrapper } from 'components/common/tooltip-wrapper';
 import { Checkbox } from 'components/ui/checkbox';
 import { Label } from 'components/ui/label';
 import { RadioGroup, RadioGroupItem } from 'components/ui/radio-group';
-import { REGION } from 'constant/geo-location';
+import { REGION } from 'constant/location';
 import { type CategoryFilter } from 'lib/kakao-map';
 import { Fragment } from 'react';
 

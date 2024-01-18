@@ -5,7 +5,7 @@ import { CheckboxWithLabel } from 'components/common/checkbox-label';
 import { LegendViewWrapper } from 'components/common/legend-wrapper';
 import { LoadingSpinner } from 'components/common/LoadingSpinner';
 import { RadioButtonHandler } from 'components/common/radio-wrapper';
-import { LOCATION } from 'constant/geo-location';
+import { LOCATION } from 'constant/location';
 import { lazy, Suspense } from 'react';
 import { useState } from 'react';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
