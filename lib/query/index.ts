@@ -29,13 +29,6 @@ export const createQueryClient = new QueryClient({
       queryErrorHandler(error);
     },
   }),
-
-  defaultOptions: {
-    queries: {
-      staleTime: 600000, // 10 minutes
-      gcTime: 600000, // 10 minutes
-    },
-  },
 });
 
 export const formManagerKeys = {
