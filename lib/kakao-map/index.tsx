@@ -5,6 +5,8 @@ import { type TrafficHub } from 'app/page';
 import { LoadingSpinner } from 'components/common/loading-spinner';
 import { LegendCheckboxManager } from 'components/legend/checkbox-manager';
 import { LOCATION } from 'constant/location';
+import { useCategoryFilter } from 'hooks/useCategoryFilter';
+import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
 import { lazy, Suspense } from 'react';
 import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 
@@ -15,9 +17,16 @@ interface MapContainerProps {
 }
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
+  const { handleCategoryChange, selectedCategory } = useCategoryFilter();
+  const { traffic } = useTrafficGetQuery(selectedCategory);
+
+  if (traffic.isLoading) return <LoadingSpinner />;
   return (
     <>
-      <LegendCheckboxManager>
+      <LegendCheckboxManager
+        selectedCategory={selectedCategory}
+        handleCategoryChange={handleCategoryChange}
+      >
         <Map
           center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
           style={{ width: '100%', height: '100vh' }}
@@ -37,7 +46,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
             minLevel={8}
           >
             <Suspense fallback={<LoadingSpinner />}>
-              <MapMarkerComp filteredData={data} />
+              <MapMarkerComp filteredData={traffic.data} />
             </Suspense>
           </MarkerClusterer>
         </Map>

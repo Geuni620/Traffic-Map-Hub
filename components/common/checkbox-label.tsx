@@ -15,7 +15,7 @@ export const CheckboxWithLabel: React.FC<CheckboxWithLabelProps> = ({
   onCheckedChange,
 }) => {
   const handleChange = (checked: boolean) => {
-    onCheckedChange(id as CategoryFilter, checked);
+    onCheckedChange(id, checked);
   };
 
   return (

@@ -3,15 +3,18 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { createClient } from 'utils/supabase/server';
 
-export async function GET() {
+export async function GET(request: Request) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
+  const url = new URL(request.url);
+  const categories = url.searchParams.getAll('category');
+  console.log('categories', categories);
 
   try {
     const { data, error } = await supabase
       .from('traffic_hub')
       .select('*')
-      .order('id', { ascending: true });
+      .or(categories.map((category) => `source.eq.${category}`).join(','));
 
     if (error) {
       throw new Error(error.message);
