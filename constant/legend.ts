@@ -1,5 +1,7 @@
+export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon' | 'toll';
+
 type Legend = {
-  id: string;
+  id: CategoryFilter;
   label: string;
 };
 

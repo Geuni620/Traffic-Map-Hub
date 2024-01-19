@@ -1,5 +1,4 @@
 // TODO: 여기서 use client 쓰는게 아니라, 하나씩 아래로 내려주자
-
 'use client';
 
 import { type TrafficHub } from 'app/page';

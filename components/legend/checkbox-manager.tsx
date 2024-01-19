@@ -1,12 +1,11 @@
 import { CheckboxWithLabel } from 'components/common/checkbox-label';
 import { LEGEND_CHECKBOX_LABEL } from 'constant/legend';
+import { CategoryFilter } from 'constant/legend';
 import { useState } from 'react';
 
 interface LegendCheckboxManagerProps {
   children: React.ReactNode;
 }
-
-export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon' | 'toll';
 
 export const LegendCheckboxManager: React.FC<LegendCheckboxManagerProps> = ({
   children,
@@ -15,13 +14,13 @@ export const LegendCheckboxManager: React.FC<LegendCheckboxManagerProps> = ({
     new Set<CategoryFilter>(),
   );
 
-  const handleCategoryChange = (id: string, isChecked: boolean) => {
-    setSelectedCategories((prev) => {
+  const handleCategoryChange = (id: CategoryFilter, isChecked: boolean) => {
+    setSelectedCategories((prev: Set<CategoryFilter>) => {
       const newCategories = new Set(prev);
       if (isChecked) {
-        newCategories.add(category);
+        newCategories.add(id);
       } else {
-        newCategories.delete(category);
+        newCategories.delete(id);
       }
 
       return newCategories;
@@ -35,7 +34,8 @@ export const LegendCheckboxManager: React.FC<LegendCheckboxManagerProps> = ({
       <div className="legend-group">
         {LEGEND_CHECKBOX_LABEL.map(({ id, label }) => (
           <CheckboxWithLabel
-            onCheckedChange={}
+            onCheckedChange={handleCategoryChange}
+            checked={selectedCategories.has(id)}
             key={id}
             id={id}
             label={label}
