@@ -2,15 +2,12 @@
 'use client';
 
 import { type TrafficHub } from 'app/page';
-import { LoadingSpinner } from 'components/common/loading-spinner';
 import { LegendCheckboxManager } from 'components/legend/checkbox-manager';
+import { MapMarkerComp } from 'components/map/map-marker';
 import { LOCATION } from 'constant/location';
 import { useCategoryFilter } from 'hooks/useCategoryFilter';
-import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
-import { lazy, Suspense } from 'react';
-import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
-
-const MapMarkerComp = lazy(() => import('components/map/map-marker'));
+import { useState } from 'react';
+import { Map } from 'react-kakao-maps-sdk';
 
 interface MapContainerProps {
   data: TrafficHub[];
@@ -18,9 +15,13 @@ interface MapContainerProps {
 
 export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
   const { handleCategoryChange, selectedCategory } = useCategoryFilter();
-  const { traffic } = useTrafficGetQuery(selectedCategory);
+  const [zoomLevel, setZoomLevel] = useState(8);
+  const [mapBounds, setMapBounds] = useState(null);
 
-  if (traffic.isLoading) return <LoadingSpinner />;
+  const handleZoomChanged = (map) => {
+    setZoomLevel(map.getLevel());
+  };
+
   return (
     <>
       <LegendCheckboxManager
@@ -32,23 +33,12 @@ export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
           style={{ width: '100%', height: '100vh' }}
           level={12}
           maxLevel={12}
+          onZoomChanged={handleZoomChanged}
         >
-          <MarkerClusterer
-            texts={(size) => {
-              /**
-               * MapMarker와 CustomOverlayMap을 같이 사용할 경우
-               * 둘이 합쳐진 수치가 렌더링 됨
-               */
-              return (size / 2).toString();
-            }}
-            gridSize={300}
-            averageCenter={true}
-            minLevel={8}
-          >
-            <Suspense fallback={<LoadingSpinner />}>
-              <MapMarkerComp filteredData={traffic.data} />
-            </Suspense>
-          </MarkerClusterer>
+          <MapMarkerComp
+            selectedCategory={selectedCategory}
+            zoomLevel={zoomLevel}
+          />
         </Map>
       </LegendCheckboxManager>
     </>

@@ -1,5 +1,7 @@
-import { TrafficHub } from 'app/page';
+import { LoadingSpinner } from 'components/common/loading-spinner';
 import { Badge } from 'components/ui/badge';
+import { type CategoryFilter } from 'constant/legend';
+import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
 import { Fragment } from 'react';
 import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
 import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
@@ -8,60 +10,64 @@ import { getMarkerImage } from 'utils/getMarkerImage';
 import { getTrafficColor } from 'utils/getTrafficColor';
 
 interface MapMarkerProps {
-  filteredData: TrafficHub[];
+  selectedCategory: Set<CategoryFilter>;
+  zoomLevel: number;
 }
 
-const MapMarkerComp: React.FC<MapMarkerProps> = ({ filteredData }) => {
-  return (
-    <>
-      {filteredData.map((item, index) => {
-        if (item.x_code && item.y_code) {
-          const aadtKey = item.source === 'toll' ? 'aadt_2021' : 'aadt_2022';
-          const badgeColor = getTrafficColor(item?.[aadtKey]);
-          const markerImageSrc = getMarkerImage(item.source, item.road_type);
+export const MapMarkerComp: React.FC<MapMarkerProps> = ({
+  selectedCategory,
+  zoomLevel,
+}) => {
+  const SHOW_MARKER_LEVEL = 6;
+  const { traffic } = useTrafficGetQuery(selectedCategory);
 
-          return (
-            <Fragment key={index}>
-              <MapMarker
-                position={{
-                  lat: item.x_code,
-                  lng: item.y_code,
+  if (traffic.data) {
+    traffic.data.map((item, index) => {
+      if (item.x_code && item.y_code && zoomLevel <= SHOW_MARKER_LEVEL) {
+        const aadtKey = item.source === 'toll' ? 'aadt_2021' : 'aadt_2022';
+        const badgeColor = getTrafficColor(item?.[aadtKey]);
+        const markerImageSrc = getMarkerImage(item.source, item.road_type);
+
+        return (
+          <Fragment key={index}>
+            <MapMarker
+              position={{
+                lat: item.x_code,
+                lng: item.y_code,
+              }}
+              image={{
+                src: markerImageSrc,
+                size: {
+                  width: 25,
+                  height: 25,
+                },
+              }}
+            />
+            <CustomOverlayMap
+              position={{
+                lat: item.x_code,
+                lng: item.y_code,
+              }}
+              xAnchor={0.5}
+              yAnchor={2.0}
+            >
+              <Badge
+                className="p-0"
+                style={{
+                  backgroundColor: badgeColor,
                 }}
-                image={{
-                  src: markerImageSrc,
-                  size: {
-                    width: 25,
-                    height: 25,
-                  },
-                }}
-              />
-              <CustomOverlayMap
-                position={{
-                  lat: item.x_code,
-                  lng: item.y_code,
-                }}
-                xAnchor={0.5}
-                yAnchor={2.0}
               >
-                <Badge
-                  className="p-0"
-                  style={{
-                    backgroundColor: badgeColor,
-                  }}
-                >
-                  <p className="badge-label">
-                    {formatType(item.traffic_survey_type).label}{' '}
-                    {formatNumberWithCommas(item[aadtKey])}
-                  </p>
-                </Badge>
-              </CustomOverlayMap>
-            </Fragment>
-          );
-        }
-        return null;
-      })}
-    </>
-  );
-};
+                <p className="badge-label">
+                  {formatType(item.traffic_survey_type).label}{' '}
+                  {formatNumberWithCommas(item[aadtKey])}
+                </p>
+              </Badge>
+            </CustomOverlayMap>
+          </Fragment>
+        );
+      }
+    });
+  }
 
-export default MapMarkerComp;
+  return <LoadingSpinner />;
+};
