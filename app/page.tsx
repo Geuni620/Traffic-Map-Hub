@@ -15,7 +15,7 @@ export default async function Index() {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <MapContainer data={[]} />
+      <MapContainer />
     </div>
   );
 }

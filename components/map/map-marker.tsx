@@ -6,24 +6,27 @@ import { Fragment } from 'react';
 import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
 import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
 import { formatType } from 'utils/formatType';
+import { DisplayPosition } from 'utils/getDisplayPosition';
 import { getMarkerImage } from 'utils/getMarkerImage';
 import { getTrafficColor } from 'utils/getTrafficColor';
 
 interface MapMarkerProps {
   selectedCategory: Set<CategoryFilter>;
-  zoomLevel: number;
+  mapDisplayPosition: DisplayPosition;
 }
 
 export const MapMarkerComp: React.FC<MapMarkerProps> = ({
   selectedCategory,
-  zoomLevel,
+  mapDisplayPosition,
 }) => {
-  const SHOW_MARKER_LEVEL = 6;
-  const { traffic } = useTrafficGetQuery(selectedCategory);
+  const { traffic } = useTrafficGetQuery({
+    mapDisplayPosition,
+    categoryFilter: selectedCategory,
+  });
 
-  if (traffic.data) {
-    traffic.data.map((item, index) => {
-      if (item.x_code && item.y_code && zoomLevel <= SHOW_MARKER_LEVEL) {
+  if (traffic.data && mapDisplayPosition.zoom < 8) {
+    return traffic.data.map((item, index) => {
+      if (item.x_code && item.y_code) {
         const aadtKey = item.source === 'toll' ? 'aadt_2021' : 'aadt_2022';
         const badgeColor = getTrafficColor(item?.[aadtKey]);
         const markerImageSrc = getMarkerImage(item.source, item.road_type);
