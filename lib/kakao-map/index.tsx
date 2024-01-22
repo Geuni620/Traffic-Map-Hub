@@ -1,12 +1,10 @@
 // TODO: 여기서 use client 쓰는게 아니라, 하나씩 아래로 내려주자
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
 import { LegendCheckboxManager } from 'components/legend/checkbox-manager';
 import { MapMarkerComp } from 'components/map/map-marker';
 import { LOCATION } from 'constant/location';
 import { useCategoryFilter } from 'hooks/useCategoryFilter';
-import { trafficManagerKeys } from 'lib/query/queryFactory';
 import { useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import {
@@ -15,7 +13,6 @@ import {
 } from 'utils/getDisplayPosition';
 
 export const MapContainer: React.FC = () => {
-  const queryClient = useQueryClient();
   const { handleCategoryChange, selectedCategory } = useCategoryFilter();
   const [mapDisplayPosition, setMapDisplayPosition] =
     useState<DisplayPosition | null>(null);
@@ -23,9 +20,6 @@ export const MapContainer: React.FC = () => {
   const handleTileLoaded = (map: kakao.maps.Map) => {
     const newDisplayPosition = getDisplayPosition(map);
     setMapDisplayPosition(newDisplayPosition);
-    // queryClient.invalidateQueries({
-    //   queryKey: trafficManagerKeys.traffic,
-    // });
   };
 
   return (

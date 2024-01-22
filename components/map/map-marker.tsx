@@ -1,6 +1,7 @@
 import { LoadingSpinner } from 'components/common/loading-spinner';
 import { Badge } from 'components/ui/badge';
 import { type CategoryFilter } from 'constant/legend';
+import { SHOW_MARKER_ZOOM_LEVEL } from 'constant/location';
 import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
 import { Fragment } from 'react';
 import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
@@ -24,7 +25,7 @@ export const MapMarkerComp: React.FC<MapMarkerProps> = ({
     categoryFilter: selectedCategory,
   });
 
-  if (traffic.data && mapDisplayPosition.zoom < 8) {
+  if (traffic.data && mapDisplayPosition.zoom <= SHOW_MARKER_ZOOM_LEVEL) {
     return traffic.data.map((item, index) => {
       if (item.x_code && item.y_code) {
         const aadtKey = item.source === 'toll' ? 'aadt_2021' : 'aadt_2022';

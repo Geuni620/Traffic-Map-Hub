@@ -36,3 +36,5 @@ export const REGION: Region[] = [
     value: 'toll',
   },
 ];
+
+export const SHOW_MARKER_ZOOM_LEVEL = 7;

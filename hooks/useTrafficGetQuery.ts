@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { type TrafficHub } from 'app/page';
 import { type CategoryFilter } from 'constant/legend';
+import { SHOW_MARKER_ZOOM_LEVEL } from 'constant/location';
 import { trafficManagerKeys } from 'lib/query/queryFactory';
 import { DisplayPosition } from 'utils/getDisplayPosition';
 
@@ -54,7 +55,7 @@ export const useTrafficGetQuery = ({
       ...categoryFilterArray,
     ],
     queryFn: () => getTraffic({ categoryFilterArray, mapDisplayPosition }),
-    enabled: mapDisplayPosition.zoom < 8,
+    enabled: mapDisplayPosition.zoom <= SHOW_MARKER_ZOOM_LEVEL,
   });
 
   return { traffic };
