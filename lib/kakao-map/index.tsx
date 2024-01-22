@@ -1,62 +1,47 @@
+// TODO: 여기서 use client 쓰는게 아니라, 하나씩 아래로 내려주자
 'use client';
 
-import { type MapContainerProps } from 'app/page';
-import { LegendViewWrapper } from 'components/common/legend-wrapper';
-import { LoadingSpinner } from 'components/common/LoadingSpinner';
-import { RadioButtonHandler } from 'components/common/radio-wrapper';
-import { LOCATION } from 'constant/geo-location';
-import { lazy, Suspense } from 'react';
+import { LegendCheckboxManager } from 'components/legend/checkbox-manager';
+import { MapMarkerComp } from 'components/map/map-marker';
+import { LOCATION } from 'constant/location';
+import { useCategoryFilter } from 'hooks/useCategoryFilter';
 import { useState } from 'react';
-import { Map, MarkerClusterer } from 'react-kakao-maps-sdk';
+import { Map } from 'react-kakao-maps-sdk';
+import {
+  type DisplayPosition,
+  getDisplayPosition,
+} from 'utils/getDisplayPosition';
 
-const MapMarkerComp = lazy(() => import('components/map/map-marker'));
+export const MapContainer: React.FC = () => {
+  const { handleCategoryChange, selectedCategory } = useCategoryFilter();
+  const [mapDisplayPosition, setMapDisplayPosition] =
+    useState<DisplayPosition | null>(null);
 
-export type CategoryFilter = 'all' | 'highway' | 'seoul' | 'incheon' | 'toll';
-export type RoadType = 'expressway' | 'national' | 'provincial' | 'local';
-
-export const MapContainer: React.FC<MapContainerProps> = ({ data }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const handleCategoryChange = (value: CategoryFilter) => {
-    setSelectedCategory(value);
+  const handleTileLoaded = (map: kakao.maps.Map) => {
+    const newDisplayPosition = getDisplayPosition(map);
+    setMapDisplayPosition(newDisplayPosition);
   };
-
-  const filteredData = data.filter(
-    (item) => selectedCategory === 'all' || item.source === selectedCategory,
-  );
 
   return (
     <>
-      <LegendViewWrapper>
-        <RadioButtonHandler
-          selectedCategory={selectedCategory}
-          handleCategoryChange={handleCategoryChange}
+      <LegendCheckboxManager
+        selectedCategory={selectedCategory}
+        handleCategoryChange={handleCategoryChange}
+      >
+        <Map
+          center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
+          style={{ width: '100%', height: '100vh' }}
+          level={12}
+          onTileLoaded={handleTileLoaded}
         >
-          <Map
-            center={{ lat: LOCATION.LATITUDE, lng: LOCATION.LONGITUDE }}
-            style={{ width: '100%', height: '100vh' }}
-            level={12}
-            maxLevel={12}
-          >
-            <MarkerClusterer
-              texts={(size) => {
-                /**
-                 * MapMarker와 CustomOverlayMap을 같이 사용할 경우
-                 * 둘이 합쳐진 수치가 렌더링 됨
-                 */
-                return (size / 2).toString();
-              }}
-              gridSize={300}
-              averageCenter={true}
-              minLevel={8}
-            >
-              <Suspense fallback={<LoadingSpinner />}>
-                <MapMarkerComp filteredData={filteredData} />
-              </Suspense>
-            </MarkerClusterer>
-          </Map>
-        </RadioButtonHandler>
-      </LegendViewWrapper>
+          {mapDisplayPosition && (
+            <MapMarkerComp
+              mapDisplayPosition={mapDisplayPosition}
+              selectedCategory={selectedCategory}
+            />
+          )}
+        </Map>
+      </LegendCheckboxManager>
     </>
   );
 };
