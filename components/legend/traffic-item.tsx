@@ -12,7 +12,7 @@ export const TrafficColorLegendItem: React.FC<TrafficItemProps> = ({
   return (
     <div className="flex items-center gap-2">
       <div
-        className="h-[30px] w-[30px] rounded-lg"
+        className="size-[30px] rounded-lg"
         style={{
           backgroundColor: color,
         }}
