@@ -1,9 +1,11 @@
 import './globals.css';
 
 import { Analytics } from 'components/analytics';
+import { LoadingSpinner } from 'components/common/loading-spinner';
 import { QueryContext } from 'components/common/query-context';
 import { GeistSans } from 'geist/font/sans';
 import Script from 'next/script';
+import { Suspense } from 'react';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -11,8 +13,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Next.js and Supabase Starter Kit',
-  description: 'The fastest way to build apps with Next.js and Supabase',
+  title: 'Traffic Hub',
+  description: '전국에 있는 모든 교통량을 보여드릴게요.',
 };
 
 export default function RootLayout({
@@ -28,12 +30,14 @@ export default function RootLayout({
           strategy="beforeInteractive"
           defer
         />
-        <Analytics />
-        <QueryContext>
-          <main className="flex min-h-screen flex-col items-center">
-            {children}
-          </main>
-        </QueryContext>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Analytics />
+          <QueryContext>
+            <main className="flex min-h-screen flex-col items-center">
+              {children}
+            </main>
+          </QueryContext>
+        </Suspense>
       </body>
     </html>
   );
