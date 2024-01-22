@@ -3,6 +3,7 @@
 import { Status, Wrapper } from '@googlemaps/react-wrapper';
 import { LoadingSpinner } from 'components/common/loading-spinner';
 import { LegendCheckboxManager } from 'components/legend/checkbox-manager';
+import { MarkerContainer } from 'components/map/marker-container';
 import { useCategoryFilter } from 'hooks/useCategoryFilter';
 import { GoogleMap } from 'lib/google-map';
 
@@ -20,7 +21,10 @@ const render = (status: Status) => {
           selectedCategory={selectedCategory}
           handleCategoryChange={handleCategoryChange}
         >
-          <GoogleMap />
+          <>
+            <GoogleMap />
+            <MarkerContainer />
+          </>
         </LegendCheckboxManager>
       );
   }

@@ -33,9 +33,7 @@ export default function RootLayout({
         <Suspense fallback={<LoadingSpinner />}>
           <Analytics />
           <QueryContext>
-            <main className="flex min-h-screen flex-col items-center">
-              {children}
-            </main>
+            <main>{children}</main>
           </QueryContext>
         </Suspense>
       </body>

@@ -37,10 +37,10 @@ export async function GET(request: Request) {
   };
 
   try {
-    const { data, error } = await supabase
-      .from('traffic_hub')
-      .select('*')
-      .or(categories.map((category) => `source.eq.${category}`).join(','));
+    const { data, error } = await supabase.from('traffic_hub').select('*');
+    // TODO: category 추가하기
+
+    // .or(categories.map((category) => `source.eq.${category}`).join(','));
 
     if (error) {
       throw new Error(error.message);

@@ -1,4 +1,4 @@
-export type DisplayPosition = {
+type DisplayPosition = {
   longitude: number;
   latitude: number;
   longitudeDelta: number;
@@ -6,21 +6,25 @@ export type DisplayPosition = {
   zoom: number;
 };
 
-export const getDisplayPosition = (map: kakao.maps.Map): DisplayPosition => {
+export const getDisplayPosition = (map: google.maps.Map): DisplayPosition => {
   const center = map.getCenter();
   const bounds = map.getBounds();
-  const ne = bounds.getNorthEast(); // 북동쪽 좌표
-  const sw = bounds.getSouthWest(); // 남서쪽 좌표
 
-  const longitudeDelta = (ne.getLng() - sw.getLng()) / 2;
-  const latitudeDelta = (ne.getLat() - sw.getLat()) / 2;
-  const zoom = map.getLevel();
+  const longitudeDelta = bounds
+    ? (bounds.getNorthEast().lng() - bounds.getSouthWest().lng()) / 2
+    : 0;
+  const latitudeDelta = bounds
+    ? (bounds.getNorthEast().lat() - bounds.getSouthWest().lat()) / 2
+    : 0;
+  const longitude = center ? center.lng() : 0;
+  const latitude = center ? center.lat() : 0;
+  const zoom = map.getZoom() || 0;
 
   return {
-    longitude: center.getLng(),
-    latitude: center.getLat(),
-    longitudeDelta,
-    latitudeDelta,
+    longitude,
+    latitude,
+    longitudeDelta: longitudeDelta,
+    latitudeDelta: latitudeDelta,
     zoom,
   };
 };

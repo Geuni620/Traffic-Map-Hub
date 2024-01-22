@@ -2,7 +2,6 @@ import { LoadingSpinner } from 'components/common/loading-spinner';
 import { Badge } from 'components/ui/badge';
 import { type CategoryFilter } from 'constant/legend';
 import { SHOW_MARKER_ZOOM_LEVEL } from 'constant/location';
-import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
 import { Fragment } from 'react';
 import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
 import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
@@ -10,6 +9,8 @@ import { formatType } from 'utils/formatType';
 import { DisplayPosition } from 'utils/getDisplayPosition';
 import { getMarkerImage } from 'utils/getMarkerImage';
 import { getTrafficColor } from 'utils/getTrafficColor';
+
+import { useTrafficGetQuery } from '@/hooks/useTrafficGetQuery-back';
 
 interface MapMarkerProps {
   selectedCategory: Set<CategoryFilter>;

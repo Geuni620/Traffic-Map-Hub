@@ -2,7 +2,6 @@
 'use client';
 
 import { LegendCheckboxManager } from 'components/legend/checkbox-manager';
-import { MapMarkerComp } from 'components/map/map-marker';
 import { LOCATION } from 'constant/location';
 import { useCategoryFilter } from 'hooks/useCategoryFilter';
 import { useState } from 'react';
@@ -11,6 +10,8 @@ import {
   type DisplayPosition,
   getDisplayPosition,
 } from 'utils/getDisplayPosition';
+
+import { TrafficMapMarker } from '@/components/map/marker';
 
 export const MapContainer: React.FC = () => {
   const { handleCategoryChange, selectedCategory } = useCategoryFilter();
