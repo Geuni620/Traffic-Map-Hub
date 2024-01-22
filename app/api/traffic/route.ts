@@ -23,17 +23,16 @@ export async function GET(request: Request) {
     longitude: Number(longitude) - Number(longitudeDelta),
   };
 
-  const isLatitudeWithinBounds = (marker) => {
+  const isLatitudeWithinBounds = ({ x_code }: { x_code: number }) => {
     return (
-      marker.x_code > southWestBoundary.latitude &&
-      marker.x_code < northEastBoundary.latitude
+      x_code > southWestBoundary.latitude && x_code < northEastBoundary.latitude
     );
   };
 
-  const isLongitudeWithinBounds = (marker) => {
+  const isLongitudeWithinBounds = ({ y_code }: { y_code: number }) => {
     return (
-      marker.y_code > southWestBoundary.longitude &&
-      marker.y_code < northEastBoundary.longitude
+      y_code > southWestBoundary.longitude &&
+      y_code < northEastBoundary.longitude
     );
   };
 
@@ -49,7 +48,8 @@ export async function GET(request: Request) {
 
     const foundMarker = data.filter(
       (marker) =>
-        isLatitudeWithinBounds(marker) && isLongitudeWithinBounds(marker),
+        isLatitudeWithinBounds({ x_code: marker.x_code }) &&
+        isLongitudeWithinBounds({ y_code: marker.y_code }),
     );
 
     return new NextResponse(JSON.stringify(foundMarker), {
