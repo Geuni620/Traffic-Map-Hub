@@ -37,4 +37,5 @@ export const REGION: Region[] = [
   },
 ];
 
+export const INITIAL_ZOOM_LEVEL = 12;
 export const SHOW_MARKER_ZOOM_LEVEL = 7;
