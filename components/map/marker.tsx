@@ -38,7 +38,7 @@ const TrafficMapMarker = ({ traffic }: TrafficMapMarkerProps) => {
 
     createRoot(container).render(
       <>
-        <Badge className="badge-label bg-black p-0">
+        <Badge className="badge-label bg-black">
           <p>
             {formatType(traffic.traffic_survey_type).label}
             {formatNumberWithCommas(trafficVolume)}

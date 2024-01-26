@@ -4,7 +4,7 @@ import { getDisplayPosition } from 'utils/getDisplayPosition';
 
 import { trafficManagerKeys } from '@/lib/query/queryFactory';
 
-const fetchTraffic = async () => {
+const fetchTraffic = async ({ categoryFilter }: UseTrafficGetQueryType) => {
   const googleMap = getGoogleMapStore().getState();
   const { latitudeDelta, longitudeDelta, longitude, latitude } =
     getDisplayPosition(googleMap);
@@ -14,6 +14,10 @@ const fetchTraffic = async () => {
   url.searchParams.append('longitude', longitude.toString());
   url.searchParams.append('latitudeDelta', latitudeDelta.toString());
   url.searchParams.append('longitudeDelta', longitudeDelta.toString());
+  url.searchParams.append(
+    'category',
+    Array.from(categoryFilter || []).join(','),
+  );
 
   const res = await fetch(url);
 
@@ -24,10 +28,20 @@ const fetchTraffic = async () => {
   return await res.json();
 };
 
-export const useTrafficGetQuery = () => {
+type UseTrafficGetQueryType = {
+  categoryFilter?: Set<string>;
+};
+
+export const useTrafficGetQuery = ({
+  categoryFilter,
+}: UseTrafficGetQueryType) => {
   const traffic = useQuery({
-    queryKey: [...trafficManagerKeys.traffic],
-    queryFn: fetchTraffic,
+    queryKey: [
+      ...trafficManagerKeys.traffic,
+      'category',
+      Array.from(categoryFilter || []).join(','),
+    ],
+    queryFn: () => fetchTraffic({ categoryFilter }),
     refetchOnWindowFocus: false,
   });
 

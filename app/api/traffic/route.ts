@@ -7,7 +7,8 @@ export async function GET(request: Request) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const url = new URL(request.url);
-  const categories = url.searchParams.getAll('category');
+  const categoriesStr = url.searchParams.get('category');
+  const categories = categoriesStr ? categoriesStr.split(',') : [];
   const latitude = url.searchParams.get('latitude');
   const longitude = url.searchParams.get('longitude');
   const latitudeDelta = url.searchParams.get('latitudeDelta');
@@ -37,14 +38,16 @@ export async function GET(request: Request) {
   };
 
   try {
-    const { data, error } = await supabase.from('traffic_hub').select('*');
-    // TODO: category 추가하기
-
-    // .or(categories.map((category) => `source.eq.${category}`).join(','));
+    const { data, error } = await supabase
+      .from('traffic_hub')
+      .select('*')
+      .or(categories.map((category) => `source.eq.${category}`).join(','));
 
     if (error) {
       throw new Error(error.message);
     }
+
+    console.log('data', data.length);
 
     const foundMarker = data.filter(
       (marker) =>

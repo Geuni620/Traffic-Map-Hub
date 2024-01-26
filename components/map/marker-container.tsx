@@ -6,8 +6,14 @@ const TrafficMapMarker = dynamic(() => import('@/components/map/marker'), {
   ssr: false,
 });
 
-export const MarkerContainer: React.FC = () => {
-  const { traffic } = useTrafficGetQuery();
+type MarkerContainerProps = {
+  selectedCategory: Set<string>;
+};
+
+export const MarkerContainer: React.FC<MarkerContainerProps> = ({
+  selectedCategory,
+}) => {
+  const { traffic } = useTrafficGetQuery({ categoryFilter: selectedCategory });
 
   if (traffic.data === undefined) {
     return null;
