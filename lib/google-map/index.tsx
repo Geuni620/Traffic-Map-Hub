@@ -5,7 +5,10 @@ import { useEffect } from 'react';
 import { getGoogleMapStore } from 'store/googleMapStore';
 
 export const GoogleMap = () => {
-  const googleMap = useExternalValue(getGoogleMapStore());
+  const mapStore = getGoogleMapStore?.();
+  if (!mapStore) return;
+
+  const googleMap = useExternalValue(mapStore);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -14,7 +17,7 @@ export const GoogleMap = () => {
         queryKey: [...trafficManagerKeys.traffic],
       });
     });
-  }, [googleMap]);
+  }, [googleMap, queryClient]);
 
   return <></>;
 };

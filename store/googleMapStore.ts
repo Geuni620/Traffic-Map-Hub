@@ -37,29 +37,3 @@ export const getGoogleMapStore = (() => {
     return store<google.maps.Map>(googleMap);
   };
 })();
-
-// export const getGoogleMapStore = (() => {
-//   let googleMap: google.maps.Map;
-
-//   return () => {
-//     if (!isBrowser()) {
-//       return;
-//     }
-
-//     const container = document.createElement('div');
-//     container.id = 'map';
-//     container.style.minHeight = '100vh';
-//     document.body.appendChild(container);
-
-//     if (!googleMap) {
-//       googleMap = new window.google.maps.Map(container, {
-//         center: INITIAL_CENTER,
-//         zoom: INITIAL_ZOOM_LEVEL,
-//         disableDefaultUI: true,
-//         mapId: process.env.NEXT_PUBLIC_MAPS_ID,
-//       });
-//     }
-
-//     return store<google.maps.Map>(googleMap);
-//   };
-// })();

@@ -132,3 +132,17 @@
   left: 0;
   top: 4rem;
 }
+
+/* Marker Container */
+.marker-container {
+  position: relative;
+  display: inline-block;
+}
+
+.badge-label {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}

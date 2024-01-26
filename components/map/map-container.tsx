@@ -21,10 +21,8 @@ const render = (status: Status) => {
           selectedCategory={selectedCategory}
           handleCategoryChange={handleCategoryChange}
         >
-          <>
-            <GoogleMap />
-            <MarkerContainer />
-          </>
+          <GoogleMap />
+          <MarkerContainer />
         </LegendCheckboxManager>
       );
   }
