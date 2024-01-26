@@ -5,9 +5,11 @@ import { getDisplayPosition } from 'utils/getDisplayPosition';
 import { trafficManagerKeys } from '@/lib/query/queryFactory';
 
 const fetchTraffic = async ({ categoryFilter }: UseTrafficGetQueryType) => {
-  const googleMap = getGoogleMapStore().getState();
+  const mapStore = getGoogleMapStore?.();
+  if (!mapStore) return;
+
   const { latitudeDelta, longitudeDelta, longitude, latitude } =
-    getDisplayPosition(googleMap);
+    getDisplayPosition(mapStore.getState());
 
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/traffic`);
   url.searchParams.append('latitude', latitude.toString());
