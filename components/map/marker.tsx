@@ -7,7 +7,6 @@ import { getGoogleMapStore } from 'store/googleMapStore';
 import { formatNumberWithCommas } from 'utils/formatNumberWithCommas';
 import { formatType } from 'utils/formatType';
 import { getMarkerImage } from 'utils/getMarkerImage';
-import { getTrafficColor } from 'utils/getTrafficColor';
 
 type TrafficMapMarkerProps = {
   traffic: TrafficHub;
@@ -27,7 +26,6 @@ const TrafficMapMarker = ({ traffic }: TrafficMapMarkerProps) => {
     const aadtKey = source === 'toll' ? 'aadt_2021' : 'aadt_2022';
     const trafficVolume = traffic?.[aadtKey];
     const marker = getMarkerImage(source, roadType);
-    const badgeColor = getTrafficColor(traffic?.[aadtKey]);
     const container = document.createElement('div');
     container.className = 'marker-container';
 
@@ -40,18 +38,13 @@ const TrafficMapMarker = ({ traffic }: TrafficMapMarkerProps) => {
 
     createRoot(container).render(
       <>
-        <Badge
-          className="badge-label p-0"
-          style={{
-            backgroundColor: badgeColor,
-          }}
-        >
+        <Badge className="badge-label bg-black p-0">
           <p>
-            {formatType(traffic.traffic_survey_type).label}{' '}
+            {formatType(traffic.traffic_survey_type).label}
             {formatNumberWithCommas(trafficVolume)}
           </p>
         </Badge>
-        <img src={marker} className="size-7" alt="marker" />
+        <img src={marker} className="size-6" alt="marker" />
       </>,
     );
 

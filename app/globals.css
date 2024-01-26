@@ -119,7 +119,11 @@
 
 /* Badge */
 .badge-label {
-  padding: 0.2rem 0.5rem;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
 }
 
 /* Legend */
@@ -137,12 +141,4 @@
 .marker-container {
   position: relative;
   display: inline-block;
-}
-
-.badge-label {
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
 }
