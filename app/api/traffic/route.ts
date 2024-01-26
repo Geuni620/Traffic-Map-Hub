@@ -47,8 +47,6 @@ export async function GET(request: Request) {
       throw new Error(error.message);
     }
 
-    console.log('data', data.length);
-
     const foundMarker = data.filter(
       (marker) =>
         isLatitudeWithinBounds({ x_code: marker.x_code }) &&
