@@ -1,30 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
-import { type TrafficHub } from 'app/page';
-import { type CategoryFilter } from 'constant/legend';
-import { SHOW_MARKER_ZOOM_LEVEL } from 'constant/location';
-import { trafficManagerKeys } from 'lib/query/queryFactory';
-import { DisplayPosition } from 'utils/getDisplayPosition';
+import { getGoogleMapStore } from 'store/googleMapStore';
+import { getDisplayPosition } from 'utils/getDisplayPosition';
 
-interface GetTrafficParams {
-  mapDisplayPosition: DisplayPosition;
-  categoryFilterArray?: CategoryFilter[];
-}
+import { trafficManagerKeys } from '@/lib/query/queryFactory';
 
-const getTraffic = async ({
-  categoryFilterArray,
-  mapDisplayPosition,
-}: GetTrafficParams) => {
+const fetchTraffic = async ({ categoryFilter }: UseTrafficGetQueryType) => {
+  const mapStore = getGoogleMapStore?.();
+  if (!mapStore) return;
+
   const { latitudeDelta, longitudeDelta, longitude, latitude } =
-    mapDisplayPosition;
+    getDisplayPosition(mapStore.getState());
 
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/traffic`);
-  categoryFilterArray?.forEach((filter) =>
-    url.searchParams.append('category', filter),
-  );
   url.searchParams.append('latitude', latitude.toString());
   url.searchParams.append('longitude', longitude.toString());
   url.searchParams.append('latitudeDelta', latitudeDelta.toString());
   url.searchParams.append('longitudeDelta', longitudeDelta.toString());
+  url.searchParams.append(
+    'category',
+    Array.from(categoryFilter || []).join(','),
+  );
 
   const res = await fetch(url);
 
@@ -36,27 +31,23 @@ const getTraffic = async ({
 };
 
 type UseTrafficGetQueryType = {
-  mapDisplayPosition: DisplayPosition;
-  categoryFilter?: Set<CategoryFilter>;
+  categoryFilter?: Set<string>;
 };
 
 export const useTrafficGetQuery = ({
-  mapDisplayPosition,
   categoryFilter,
 }: UseTrafficGetQueryType) => {
-  const positionKey = `${mapDisplayPosition.latitude},${mapDisplayPosition.longitude},${mapDisplayPosition.zoom}`;
-
-  const categoryFilterArray = Array.from(categoryFilter || []);
-
-  const traffic = useQuery<TrafficHub[]>({
+  const traffic = useQuery({
     queryKey: [
       ...trafficManagerKeys.traffic,
-      positionKey,
-      ...categoryFilterArray,
+      'category',
+      Array.from(categoryFilter || []).join(','),
     ],
-    queryFn: () => getTraffic({ categoryFilterArray, mapDisplayPosition }),
-    enabled: mapDisplayPosition.zoom <= SHOW_MARKER_ZOOM_LEVEL,
+    queryFn: () => fetchTraffic({ categoryFilter }),
+    refetchOnWindowFocus: false,
   });
 
-  return { traffic };
+  return {
+    traffic,
+  };
 };

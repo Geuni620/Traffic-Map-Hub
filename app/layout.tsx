@@ -4,7 +4,6 @@ import { Analytics } from 'components/analytics';
 import { LoadingSpinner } from 'components/common/loading-spinner';
 import { QueryContext } from 'components/common/query-context';
 import { GeistSans } from 'geist/font/sans';
-import Script from 'next/script';
 import { Suspense } from 'react';
 
 const defaultUrl = process.env.VERCEL_URL
@@ -25,17 +24,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className={GeistSans.className}>
       <body className="bg-background text-foreground">
-        <Script
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
-          strategy="beforeInteractive"
-          defer
-        />
         <Suspense fallback={<LoadingSpinner />}>
           <Analytics />
           <QueryContext>
-            <main className="flex min-h-screen flex-col items-center">
-              {children}
-            </main>
+            <main>{children}</main>
           </QueryContext>
         </Suspense>
       </body>

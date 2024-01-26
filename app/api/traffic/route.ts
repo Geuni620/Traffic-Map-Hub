@@ -7,7 +7,8 @@ export async function GET(request: Request) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const url = new URL(request.url);
-  const categories = url.searchParams.getAll('category');
+  const categoriesStr = url.searchParams.get('category');
+  const categories = categoriesStr ? categoriesStr.split(',') : [];
   const latitude = url.searchParams.get('latitude');
   const longitude = url.searchParams.get('longitude');
   const latitudeDelta = url.searchParams.get('latitudeDelta');
@@ -45,6 +46,8 @@ export async function GET(request: Request) {
     if (error) {
       throw new Error(error.message);
     }
+
+    console.log('data', data.length);
 
     const foundMarker = data.filter(
       (marker) =>
