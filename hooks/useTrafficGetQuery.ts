@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
+import { trafficManagerKeys } from 'lib/query/queryFactory';
 import { getGoogleMapStore } from 'store/googleMapStore';
 import { getDisplayPosition } from 'utils/getDisplayPosition';
-
-import { trafficManagerKeys } from '@/lib/query/queryFactory';
 
 const fetchTraffic = async ({ categoryFilter }: UseTrafficGetQueryType) => {
   const mapStore = getGoogleMapStore?.();
@@ -44,7 +43,6 @@ export const useTrafficGetQuery = ({
       Array.from(categoryFilter || []).join(','),
     ],
     queryFn: () => fetchTraffic({ categoryFilter }),
-    refetchOnWindowFocus: false,
   });
 
   return {

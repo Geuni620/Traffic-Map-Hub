@@ -1,6 +1,10 @@
 'use client';
 
-import { INITIAL_ZOOM_LEVEL } from 'constant/location';
+import {
+  INITIAL_ZOOM_LEVEL,
+  MAX_ZOOM_LEVEL,
+  MIN_ZOOM_LEVEL,
+} from 'constant/location';
 import { store } from 'external-state';
 import { isBrowser } from 'utils/isBrowser';
 
@@ -31,6 +35,17 @@ export const getGoogleMapStore = (() => {
         zoom: INITIAL_ZOOM_LEVEL,
         disableDefaultUI: true,
         mapId: process.env.NEXT_PUBLIC_MAPS_ID,
+        minZoom: MIN_ZOOM_LEVEL,
+        maxZoom: MAX_ZOOM_LEVEL,
+        gestureHandling: 'greedy',
+        restriction: {
+          latLngBounds: {
+            north: 39,
+            south: 32,
+            east: 132,
+            west: 124,
+          },
+        },
       });
     }
 
