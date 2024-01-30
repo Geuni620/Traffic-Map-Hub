@@ -14,44 +14,43 @@ const ClusterMarker = ({ traffic }: any) => {
   if (!mapStore) return;
   const googleMap = mapStore.getState();
   const { id, latitude, longitude, count } = traffic;
+  const container = document.createElement('div');
 
   useEffect(() => {
-    const position = new google.maps.LatLng(latitude, longitude);
-    const marker = new google.maps.Marker({
-      position,
+    const markerInstance = new google.maps.marker.AdvancedMarkerElement({
+      position: {
+        lat: latitude,
+        lng: longitude,
+      },
       map: googleMap,
       title: `Cluster ${id}`,
+      content: container,
     });
 
-    const container = document.createElement('div');
-
-    console.log('counte', count);
-
     createRoot(container).render(
-      <div className="size-full bg-red-500">{count}</div>,
+      <div className="animate-fade-in flex size-16 items-center justify-center rounded-full border border-blue-600 bg-blue-200 p-4 text-lg font-bold">
+        <span>{count}</span>
+      </div>,
     );
 
     const infoWindow = new google.maps.InfoWindow({
       content: container,
     });
 
-    marker.addListener('click', () => {
-      infoWindow.open(googleMap, marker);
-      googleMap.panTo(position);
+    markerInstance.addListener('click', () => {
+      infoWindow.open(googleMap, markerInstance);
+      googleMap.panTo({ lat: latitude, lng: longitude });
 
-      // 현재 줌 레벨을 가져오고, -1하여 새로운 줌 레벨로 설정
       const currentZoomLevel = googleMap.getZoom();
-      if (currentZoomLevel !== null && currentZoomLevel > 0) {
-        googleMap.setZoom(currentZoomLevel + 1);
-      }
+      currentZoomLevel && googleMap.setZoom(currentZoomLevel + 1);
     });
 
     return () => {
-      marker.setMap(null);
+      markerInstance.map = null;
     };
-  }, [id, count, latitude, longitude, googleMap]);
+  }, []);
 
-  return null;
+  return <></>;
 };
 
 export default ClusterMarker;

@@ -27,7 +27,7 @@ const TrafficMapMarker = ({ traffic }: TrafficMapMarkerProps) => {
     const trafficVolume = traffic?.[aadtKey];
     const marker = getMarkerImage(source, roadType);
     const container = document.createElement('div');
-    container.className = 'marker-container';
+    container.className = 'marker-container animate-fade-in';
 
     const markerInstance = new google.maps.marker.AdvancedMarkerElement({
       position: { lat: latitude, lng: longitude },
