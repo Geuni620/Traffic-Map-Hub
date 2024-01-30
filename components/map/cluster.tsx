@@ -13,9 +13,10 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({ cluster }) => {
   if (!mapStore) return;
   const googleMap = mapStore.getState();
   const { id, latitude, longitude, count } = cluster;
-  const container = document.createElement('div');
 
   useEffect(() => {
+    const container = document.createElement('div');
+
     const markerInstance = new google.maps.marker.AdvancedMarkerElement({
       position: {
         lat: latitude,
@@ -32,12 +33,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({ cluster }) => {
       </div>,
     );
 
-    const infoWindow = new google.maps.InfoWindow({
-      content: container,
-    });
-
     markerInstance.addListener('click', () => {
-      infoWindow.open(googleMap, markerInstance);
       googleMap.panTo({ lat: latitude, lng: longitude });
 
       const currentZoomLevel = googleMap.getZoom();
