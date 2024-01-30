@@ -2,18 +2,17 @@ import { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { getGoogleMapStore } from 'store/googleMapStore';
 
+import { type Cluster } from './marker-container';
+
 type ClusterMarkerProps = {
-  id: number;
-  latitude: number;
-  longitude: number;
-  count: number;
+  cluster: Cluster;
 };
 
-const ClusterMarker = ({ traffic }: any) => {
+const ClusterMarker: React.FC<ClusterMarkerProps> = ({ cluster }) => {
   const mapStore = getGoogleMapStore?.();
   if (!mapStore) return;
   const googleMap = mapStore.getState();
-  const { id, latitude, longitude, count } = traffic;
+  const { id, latitude, longitude, count } = cluster;
   const container = document.createElement('div');
 
   useEffect(() => {

@@ -17,6 +17,13 @@ type MarkerContainerProps = {
   selectedCategory: Set<string>;
 };
 
+export type Cluster = {
+  id: number;
+  latitude: number;
+  longitude: number;
+  count: number;
+};
+
 export const MarkerContainer: React.FC<MarkerContainerProps> = ({
   selectedCategory,
 }) => {
@@ -47,13 +54,9 @@ export const MarkerContainer: React.FC<MarkerContainerProps> = ({
   });
 
   if (currentZoomLevel && currentZoomLevel <= 13) {
-    return (
-      <>
-        {traffic.data?.map((traffic: TrafficHub) => {
-          return <ClusterMapMarker key={traffic.id} traffic={traffic} />;
-        })}
-      </>
-    );
+    return traffic.data?.map((cluster: Cluster) => (
+      <ClusterMapMarker key={cluster.id} cluster={cluster} />
+    ));
   }
 
   if (traffic.data === undefined) {
