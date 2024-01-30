@@ -9,6 +9,10 @@ const TrafficMapMarker = dynamic(() => import('@/components/map/marker'), {
   ssr: false,
 });
 
+const ClusterMapMarker = dynamic(() => import('@/components/map/cluster'), {
+  ssr: false,
+});
+
 type MarkerContainerProps = {
   selectedCategory: Set<string>;
 };
@@ -18,7 +22,6 @@ export const MarkerContainer: React.FC<MarkerContainerProps> = ({
 }) => {
   const mapStore = getGoogleMapStore?.();
   if (!mapStore) return;
-
   const googleMaps = useExternalValue(mapStore);
   const [currentZoomLevel, setCurrentZoomLevel] = useState(
     googleMaps?.getZoom(),
@@ -44,7 +47,13 @@ export const MarkerContainer: React.FC<MarkerContainerProps> = ({
   });
 
   if (currentZoomLevel && currentZoomLevel <= 13) {
-    return null;
+    return (
+      <>
+        {traffic.data?.map((traffic: TrafficHub) => {
+          return <ClusterMapMarker key={traffic.id} traffic={traffic} />;
+        })}
+      </>
+    );
   }
 
   if (traffic.data === undefined) {

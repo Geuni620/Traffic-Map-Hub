@@ -10,9 +10,7 @@ const fetchCluster = async ({ categoryFilter }: UseTrafficGetQueryType) => {
   const { latitudeDelta, longitudeDelta, longitude, latitude } =
     getDisplayPosition(mapStore.getState());
 
-  const url = new URL(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/traffic/clusters`,
-  );
+  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/clusters`);
   url.searchParams.append('latitude', latitude.toString());
   url.searchParams.append('longitude', longitude.toString());
   url.searchParams.append('latitudeDelta', latitudeDelta.toString());
