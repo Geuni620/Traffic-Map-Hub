@@ -64,7 +64,7 @@ export async function GET(request: Request) {
       distanceFunction: squaredEuclidean,
     };
 
-    const k = 10;
+    const k = 20; // cluster 개수
     const points = foundMarker.map((marker) => [marker.x_code, marker.y_code]);
     const result = kmeans(points, k, defaultOptions);
 
