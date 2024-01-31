@@ -1,11 +1,8 @@
 import { handleErrorResponse } from 'app/api/_utils/errorHandler';
-import { squaredEuclidean } from 'ml-distance-euclidean';
-import { kmeans } from 'ml-kmeans';
+import { DBSCAN } from 'density-clustering';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { createClient } from 'utils/supabase/server';
-
-export type InitializationMethod = 'kmeans++' | 'random' | 'mostDistant';
 
 export async function GET(request: Request) {
   const cookieStore = cookies();
@@ -57,25 +54,30 @@ export async function GET(request: Request) {
         isLongitudeWithinBounds({ y_code: marker.y_code }),
     );
 
-    const defaultOptions = {
-      maxIterations: 100,
-      tolerance: 1e-6,
-      initialization: 'kmeans++' as InitializationMethod,
-      distanceFunction: squaredEuclidean,
-    };
-
-    const k = 20; // cluster 개수
     const points = foundMarker.map((marker) => [marker.x_code, marker.y_code]);
-    const result = kmeans(points, k, defaultOptions);
+    const dbscan = new DBSCAN();
+    const clusters = dbscan.run(points, 0.02, 2);
 
-    const clusters = result.centroids.map((centroid, index) => ({
-      id: Math.random(),
-      latitude: centroid[0],
-      longitude: centroid[1],
-      count: result.clusters.filter((c) => c === index).length,
-    }));
+    const clusteredData = clusters.map((cluster, index) => {
+      const { sumLat, sumLong } = cluster.reduce(
+        (acc, cur) => {
+          return {
+            sumLat: acc.sumLat + points[cur][0],
+            sumLong: acc.sumLong + points[cur][1],
+          };
+        },
+        { sumLat: 0, sumLong: 0 },
+      );
 
-    return new NextResponse(JSON.stringify(clusters), {
+      return {
+        id: index,
+        latitude: sumLat / cluster.length,
+        longitude: sumLong / cluster.length,
+        count: cluster.length,
+      };
+    });
+
+    return new NextResponse(JSON.stringify(clusteredData), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
