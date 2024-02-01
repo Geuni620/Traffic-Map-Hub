@@ -3,8 +3,11 @@ import { ClusterMapMarker } from 'components/map/cluster';
 import { TrafficMapMarker } from 'components/map/marker';
 import { useExternalValue } from 'external-state';
 import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
+import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { getGoogleMapStore } from 'store/googleMapStore';
+
+import { LoadingSpinner } from '../common/loading-spinner';
 
 type MarkerContainerProps = {
   selectedCategory: Set<string>;
@@ -30,33 +33,41 @@ export const MarkerContainer: React.FC<MarkerContainerProps> = ({
   useEffect(() => {
     if (!googleMaps) return;
 
-    const onZoomChanged = () => {
+    const debouncedSetZoomLevel = debounce(() => {
       setCurrentZoomLevel(googleMaps.getZoom());
-    };
+    }, 200);
 
-    const listener = googleMaps.addListener('zoom_changed', onZoomChanged);
+    const listener = googleMaps.addListener(
+      'zoom_changed',
+      debouncedSetZoomLevel,
+    );
 
     return () => {
       google.maps.event.removeListener(listener);
+      debouncedSetZoomLevel.cancel();
     };
   }, [googleMaps]);
 
-  const { traffic } = useTrafficGetQuery({
+  const { data: traffic, isLoading } = useTrafficGetQuery({
     categoryFilter: selectedCategory,
     currentZoomLevel,
   });
 
+  if (isLoading) {
+    return (
+      <div className="centered-container">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   if (currentZoomLevel && currentZoomLevel <= 13) {
-    return traffic.data?.map((cluster: Cluster) => (
+    return traffic?.map((cluster: Cluster) => (
       <ClusterMapMarker key={cluster.id} cluster={cluster} />
     ));
   }
 
-  if (traffic.data === undefined) {
-    return null;
-  }
-
-  return traffic.data.map((traffic: TrafficHub) => (
+  return traffic?.map((traffic: TrafficHub) => (
     <TrafficMapMarker key={traffic.id} traffic={traffic} />
   ));
 };

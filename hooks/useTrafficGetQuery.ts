@@ -67,7 +67,7 @@ export const useTrafficGetQuery = ({
   const queryFunction =
     currentZoomLevel && currentZoomLevel >= 13 ? fetchTraffic : fetchCluster;
 
-  const traffic = useQuery({
+  return useQuery({
     queryKey: [
       ...trafficManagerKeys.traffic,
       'category',
@@ -77,8 +77,4 @@ export const useTrafficGetQuery = ({
     ],
     queryFn: () => queryFunction({ categoryFilter }),
   });
-
-  return {
-    traffic,
-  };
 };
