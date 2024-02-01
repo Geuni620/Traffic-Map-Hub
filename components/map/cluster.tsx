@@ -4,11 +4,11 @@ import { getGoogleMapStore } from 'store/googleMapStore';
 
 import { type Cluster } from './marker-container';
 
-type ClusterMarkerProps = {
+type ClusterMapMarker = {
   cluster: Cluster;
 };
 
-const ClusterMarker: React.FC<ClusterMarkerProps> = ({ cluster }) => {
+export const ClusterMapMarker: React.FC<ClusterMapMarker> = ({ cluster }) => {
   const mapStore = getGoogleMapStore?.();
   if (!mapStore) return;
   const googleMap = mapStore.getState();
@@ -51,5 +51,3 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({ cluster }) => {
 
   return <></>;
 };
-
-export default ClusterMarker;
