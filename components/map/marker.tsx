@@ -12,7 +12,7 @@ type TrafficMapMarkerProps = {
   traffic: TrafficHub;
 };
 
-const TrafficMapMarker = ({ traffic }: TrafficMapMarkerProps) => {
+export const TrafficMapMarker = ({ traffic }: TrafficMapMarkerProps) => {
   const mapStore = getGoogleMapStore?.();
   if (!mapStore) return;
   const googleMap = useExternalValue(mapStore);
@@ -59,5 +59,3 @@ const TrafficMapMarker = ({ traffic }: TrafficMapMarkerProps) => {
 
   return <></>;
 };
-
-export default TrafficMapMarker;

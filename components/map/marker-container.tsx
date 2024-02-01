@@ -1,17 +1,10 @@
 import { type TrafficHub } from 'app/page';
+import { ClusterMapMarker } from 'components/map/cluster';
+import { TrafficMapMarker } from 'components/map/marker';
 import { useExternalValue } from 'external-state';
 import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
-import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { getGoogleMapStore } from 'store/googleMapStore';
-
-const TrafficMapMarker = dynamic(() => import('@/components/map/marker'), {
-  ssr: false,
-});
-
-const ClusterMapMarker = dynamic(() => import('@/components/map/cluster'), {
-  ssr: false,
-});
 
 type MarkerContainerProps = {
   selectedCategory: Set<string>;
