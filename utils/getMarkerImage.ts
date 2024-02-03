@@ -23,6 +23,13 @@ export const getMarkerImage = (
       return '/images/i-marker.png';
     case 'toll':
       return '/images/t-marker.png';
+    case 'busan':
+      return '/images/b-marker.png';
+    case 'daegu':
+      return '/images/dg-marker.png';
+    case 'daejeon':
+      return '/images/dj-marker.png';
+
     default:
       return '/images/default-marker.png';
   }
