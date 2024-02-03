@@ -1,5 +1,6 @@
 import { Button } from 'components/ui/button';
 import { CategoryFilter } from 'constant/legend';
+import { toast } from 'sonner';
 
 interface ToggleButton {
   id: CategoryFilter;
@@ -16,6 +17,7 @@ export const ToggleButton: React.FC<ToggleButton> = ({
 }) => {
   const handleChange = () => {
     onToggleChange(id, !active);
+    toast.success('필터가 적용됐어요! 🍀');
   };
 
   return (

@@ -6,6 +6,7 @@ import { QueryContext } from 'components/common/query-context';
 import { GeistSans } from 'geist/font/sans';
 import { Suspense } from 'react';
 import CONFIG from 'site.config';
+import { Toaster } from 'sonner';
 
 export const metadata = {
   metadataBase: new URL(CONFIG.url),
@@ -43,6 +44,7 @@ export default function RootLayout({
     <html lang="ko" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <Suspense fallback={<LoadingSpinner />}>
+          <Toaster duration={2000} position="bottom-center" richColors />
           <Analytics />
           <QueryContext>
             <main>{children}</main>
