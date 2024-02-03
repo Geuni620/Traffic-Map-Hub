@@ -1,6 +1,7 @@
 import { type TrafficHub } from 'app/page';
 import { ClusterMapMarker } from 'components/map/cluster';
 import { TrafficMapMarker } from 'components/map/marker';
+import { SHOW_MARKER_ZOOM_LEVEL } from 'constant/location';
 import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
 
 type MarkerContainerProps = {
@@ -24,7 +25,7 @@ export const MarkerContainer: React.FC<MarkerContainerProps> = ({
     currentZoomLevel,
   });
 
-  if (currentZoomLevel && currentZoomLevel <= 13) {
+  if (currentZoomLevel && currentZoomLevel <= SHOW_MARKER_ZOOM_LEVEL) {
     return traffic?.map((cluster: Cluster) => (
       <ClusterMapMarker key={cluster.id} cluster={cluster} />
     ));

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { SHOW_MARKER_ZOOM_LEVEL } from 'constant/location';
 import { trafficManagerKeys } from 'lib/query/queryFactory';
 import { getGoogleMapStore } from 'store/googleMapStore';
 import { getDisplayPosition } from 'utils/getDisplayPosition';
@@ -65,7 +66,9 @@ export const useTrafficGetQuery = ({
   currentZoomLevel,
 }: UseTrafficGetQueryType) => {
   const queryFunction =
-    currentZoomLevel && currentZoomLevel >= 13 ? fetchTraffic : fetchCluster;
+    currentZoomLevel && currentZoomLevel >= SHOW_MARKER_ZOOM_LEVEL
+      ? fetchTraffic
+      : fetchCluster;
 
   return useQuery({
     queryKey: [
