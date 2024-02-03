@@ -1,5 +1,5 @@
 import { LoadingIndicator } from 'components/common/loading-component';
-import { LegendCheckboxManager } from 'components/legend/checkbox-manager';
+import { LegendToggleButtonManager } from 'components/legend/toggle-button-manager';
 import { MarkerContainer } from 'components/map/marker-container';
 import { useCategoryFilter } from 'hooks/useCategoryFilter';
 import { useGoogleMapsZoom } from 'hooks/useGoogleMapsZoom';
@@ -17,7 +17,7 @@ export const TrafficHubMap = () => {
   });
 
   return (
-    <LegendCheckboxManager
+    <LegendToggleButtonManager
       selectedCategory={selectedCategory}
       handleCategoryChange={handleCategoryChange}
     >
@@ -27,6 +27,6 @@ export const TrafficHubMap = () => {
         currentZoomLevel={currentZoomLevel ?? INITIAL_ZOOM_LEVEL}
       />
       <LoadingIndicator isFetching={isFetching} />
-    </LegendCheckboxManager>
+    </LegendToggleButtonManager>
   );
 };
