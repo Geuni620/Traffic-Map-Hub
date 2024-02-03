@@ -1,9 +1,9 @@
-import { CategoryFilter, LEGEND_CHECKBOX_LABEL } from 'constant/legend';
+import { CategoryFilter, LEGEND_BUTTON_LABEL } from 'constant/legend';
 import { useState } from 'react';
 
 export const useCategoryFilter = () => {
   const initialCategories = new Set<CategoryFilter>(
-    LEGEND_CHECKBOX_LABEL.map((legend) => legend.id),
+    LEGEND_BUTTON_LABEL.map((legend) => legend.id),
   );
   const [selectedCategory, setSelectedCategory] = useState(initialCategories);
 

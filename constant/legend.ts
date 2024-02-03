@@ -13,7 +13,7 @@ type Legend = {
   label: string;
 };
 
-export const LEGEND_CHECKBOX_LABEL: Legend[] = [
+export const LEGEND_BUTTON_LABEL: Legend[] = [
   { id: 'highway', label: '통계연보' },
   { id: 'seoul', label: '서울시' },
   { id: 'incheon', label: '인천시' },

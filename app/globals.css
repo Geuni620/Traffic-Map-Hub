@@ -75,29 +75,14 @@
   }
 }
 
-/* radio button */
-.radio-group {
-  position: fixed;
-  display: flex;
-  justify-content: space-between;
-  width: 16rem;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  padding: 1rem;
-  background-color: hsl(var(--card));
-  border-radius: calc(var(--radius) - 2px);
-  margin: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
+/* legend-group */
 .legend-group {
   position: fixed;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  width: 16rem;
+  width: auto;
   top: 0;
   left: 0;
   z-index: 20;
@@ -109,12 +94,20 @@
   gap: 0.5rem;
 }
 
-.radio-item-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+@media (max-width: 768px) {
+  .legend-group {
+    margin: 0.5rem;
+    width: calc(100% - 1rem);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    overflow-x: scroll;
+    padding: 0.5rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 
 /* Badge */
