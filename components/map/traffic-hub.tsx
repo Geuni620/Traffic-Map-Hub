@@ -26,7 +26,7 @@ export const TrafficHubMap = () => {
         selectedCategory={selectedCategory}
         currentZoomLevel={currentZoomLevel ?? INITIAL_ZOOM_LEVEL}
       />
-      <LoadingIndicator isFetching={isFetching} />
+      {/* <LoadingIndicator isFetching={isFetching} /> */}
     </LegendCheckboxManager>
   );
 };

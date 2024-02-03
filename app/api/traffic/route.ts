@@ -14,6 +14,8 @@ export async function GET(request: Request) {
   const latitudeDelta = url.searchParams.get('latitudeDelta');
   const longitudeDelta = url.searchParams.get('longitudeDelta');
 
+  console.log('categories', categories);
+
   const northEastBoundary = {
     latitude: Number(latitude) + Number(latitudeDelta),
     longitude: Number(longitude) + Number(longitudeDelta),
@@ -45,6 +47,13 @@ export async function GET(request: Request) {
 
     if (error) {
       throw new Error(error.message);
+    }
+
+    if (data.length === 0) {
+      return new NextResponse(JSON.stringify([]), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const foundMarker = data.filter(
