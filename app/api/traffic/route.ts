@@ -14,8 +14,6 @@ export async function GET(request: Request) {
   const latitudeDelta = url.searchParams.get('latitudeDelta');
   const longitudeDelta = url.searchParams.get('longitudeDelta');
 
-  console.log('categories', categories);
-
   const northEastBoundary = {
     latitude: Number(latitude) + Number(latitudeDelta),
     longitude: Number(longitude) + Number(longitudeDelta),
