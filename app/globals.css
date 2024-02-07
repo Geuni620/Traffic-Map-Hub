@@ -103,10 +103,10 @@
     justify-content: start;
     overflow-x: scroll;
     padding: 0.5rem;
+  }
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  .legend-group::-webkit-scrollbar {
+    display: none;
   }
 }
 
