@@ -4,6 +4,27 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { createClient } from 'utils/supabase/server';
 
+function dynamicKeyCounter(data, targetKey) {
+  // 결과를 저장할 객체
+  const result = {};
+
+  // 데이터 배열을 순회하면서 각 객체의 targetKey에 대한 값을 카운팅
+  data.forEach((item) => {
+    const keyValue = item[targetKey];
+    if (keyValue) {
+      if (!result[keyValue]) {
+        result[keyValue] = 1;
+      } else {
+        result[keyValue]++;
+      }
+    } else {
+      console.log('no key value', item.source);
+    }
+  });
+
+  return result;
+}
+
 export async function GET(request: Request) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
@@ -48,12 +69,8 @@ export async function GET(request: Request) {
       throw new Error(error.message);
     }
 
-    if (data.length === 0) {
-      return new NextResponse(JSON.stringify([]), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
+    const counterResult = dynamicKeyCounter(data, 'region_city');
+    console.log(counterResult);
 
     const foundMarker = data.filter(
       (marker) =>

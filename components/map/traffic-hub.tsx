@@ -11,6 +11,7 @@ import { INITIAL_ZOOM_LEVEL } from '@/constant/location';
 export const TrafficHubMap = () => {
   const { handleCategoryChange, selectedCategory } = useCategoryFilter();
   const currentZoomLevel = useGoogleMapsZoom();
+
   const { isFetching } = useTrafficGetQuery({
     categoryFilter: selectedCategory,
     currentZoomLevel: currentZoomLevel,
