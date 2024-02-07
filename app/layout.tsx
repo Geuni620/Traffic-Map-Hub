@@ -14,7 +14,7 @@ export const metadata = {
   description: CONFIG.description,
   icons: {
     icon: {
-      url: '/favicon.ico',
+      url: '/favicon.png',
       type: 'image/png',
       sizes: '32x32',
     },
