@@ -65,6 +65,8 @@ export const useTrafficGetQuery = ({
   categoryFilter,
   currentZoomLevel,
 }: UseTrafficGetQueryType) => {
+  // 필터가 없으면 무조건 false
+  const enabled = !!categoryFilter && categoryFilter.size > 0;
   const queryFunction =
     currentZoomLevel && currentZoomLevel >= SHOW_MARKER_ZOOM_LEVEL
       ? fetchTraffic
@@ -79,5 +81,6 @@ export const useTrafficGetQuery = ({
       currentZoomLevel,
     ],
     queryFn: () => queryFunction({ categoryFilter }),
+    enabled,
   });
 };
