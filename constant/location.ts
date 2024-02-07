@@ -38,6 +38,6 @@ export const REGION: Region[] = [
 ];
 
 export const INITIAL_ZOOM_LEVEL = 12;
-export const MIN_ZOOM_LEVEL = 7;
+export const MIN_ZOOM_LEVEL = 8;
 export const MAX_ZOOM_LEVEL = 20;
 export const SHOW_MARKER_ZOOM_LEVEL = 12.5;
