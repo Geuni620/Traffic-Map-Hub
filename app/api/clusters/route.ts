@@ -48,13 +48,6 @@ export async function GET(request: Request) {
       throw new Error(error.message);
     }
 
-    if (data.length === 0) {
-      return new NextResponse(JSON.stringify([]), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
     const foundMarker = data.filter(
       (marker) =>
         isLatitudeWithinBounds({ x_code: marker.x_code }) &&
