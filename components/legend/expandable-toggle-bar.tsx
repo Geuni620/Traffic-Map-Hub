@@ -43,7 +43,7 @@ export const ExpandableToggleBar: React.FC<ExpandableToggleBarProps> = ({
     <>
       <div className="fixed bottom-0 right-0 z-20 m-5">
         <div
-          className="cursor-pointer rounded-full bg-white"
+          className="cursor-pointer rounded-full bg-white p-2 md:p-0"
           onClick={toggleBar}
         >
           <Image
@@ -58,10 +58,10 @@ export const ExpandableToggleBar: React.FC<ExpandableToggleBarProps> = ({
           {isExpanded && (
             <motion.div
               initial={{ height: 0 }}
-              animate={{ height: 'auto' }}
+              animate={{ height: 'auto', maxHeight: '50vh' }}
               exit={{ height: 0 }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}
-              className="mt-2 overflow-hidden rounded-lg bg-white shadow-custom"
+              className="mt-2 max-h-[50vh] overflow-auto overflow-x-hidden rounded-lg bg-white shadow-custom md:max-h-full"
             >
               {REGION_COORDINATES.map((region) => {
                 return (
