@@ -1,8 +1,9 @@
 import { REGION_COORDINATES } from 'constant/location';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getGoogleMapStore } from 'store/googleMapStore';
+import { useOnClickOutside } from 'usehooks-ts';
 
 type ExpandableToggleBarProps = {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ type ExpandableToggleBarProps = {
 export const ExpandableToggleBar: React.FC<ExpandableToggleBarProps> = ({
   children,
 }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedRegionValue, setSelectedRegionValue] = useState<string | null>(
     null,
@@ -35,13 +37,19 @@ export const ExpandableToggleBar: React.FC<ExpandableToggleBarProps> = ({
     }
   }, [googleMap, selectedRegionValue]);
 
+  const handleClickOutside = () => {
+    setIsExpanded(false);
+  };
+
+  useOnClickOutside(ref, handleClickOutside);
+
   const toggleBar = () => {
     setIsExpanded(!isExpanded);
   };
 
   return (
     <>
-      <div className="fixed bottom-0 right-0 z-20 m-5">
+      <div ref={ref} className="fixed bottom-0 right-0 z-20 m-5">
         <div
           className="cursor-pointer rounded-full bg-white p-0 md:p-2"
           onClick={toggleBar}
