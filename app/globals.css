@@ -89,16 +89,15 @@
   padding: 1rem;
   background-color: hsl(var(--card));
   border-radius: calc(var(--radius) - 2px);
-  margin: 0.5rem 6rem;
+  margin: 0.5rem 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 0.5rem;
 }
 
-/* @media (max-width: 768px) {
+@media (max-width: 768px) {
   .legend-group {
     margin: 0.5rem;
     width: calc(100% - 1rem);
-    display: flex;
     align-items: center;
     justify-content: start;
     overflow-x: scroll;
@@ -108,7 +107,7 @@
   .legend-group::-webkit-scrollbar {
     display: none;
   }
-} */
+}
 
 /* Badge */
 .badge-label {
