@@ -10,6 +10,15 @@ import { useGoogleMapsZoom } from 'hooks/useGoogleMapsZoom';
 import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
 import { GoogleMap } from 'lib/google-map';
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+
 export const TrafficHubMap = () => {
   const { handleCategoryChange, selectedCategory } = useCategoryFilter();
   const currentZoomLevel = useGoogleMapsZoom();
@@ -31,9 +40,21 @@ export const TrafficHubMap = () => {
             currentZoomLevel={currentZoomLevel ?? INITIAL_ZOOM_LEVEL}
           />
           <LoadingIndicator isFetching={isFetching} />
-          <Button className="absolute right-0 z-20 m-5 h-10 w-20 bg-red-500">
-            Upload
-          </Button>
+          <Dialog>
+            <Button className="absolute right-0 z-20 m-5 h-10 w-20 bg-red-500">
+              <DialogTrigger>Upload</DialogTrigger>
+            </Button>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </ExpandableToggleBar>
       </LegendToggleButtonManager>
     </SideMenuBar>
