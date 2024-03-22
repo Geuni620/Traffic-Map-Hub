@@ -9,6 +9,7 @@ import { useCategoryFilter } from 'hooks/useCategoryFilter';
 import { useGoogleMapsZoom } from 'hooks/useGoogleMapsZoom';
 import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
 import { GoogleMap } from 'lib/google-map';
+import { useState } from 'react';
 
 import {
   Dialog,
@@ -18,14 +19,46 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { createClient } from '@/utils/supabase/client';
 
 export const TrafficHubMap = () => {
+  const supabase = createClient();
   const { handleCategoryChange, selectedCategory } = useCategoryFilter();
   const currentZoomLevel = useGoogleMapsZoom();
   const { isFetching } = useTrafficGetQuery({
     categoryFilter: selectedCategory,
     currentZoomLevel: currentZoomLevel,
   });
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  // 파일 선택 핸들러
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const uploadFile = async () => {
+    if (!selectedFile) return;
+
+    setUploading(true);
+
+    const { data, error } = await supabase.storage
+      .from('your-bucket-name')
+      .upload(`uploads/${selectedFile.name}`, selectedFile, {
+        cacheControl: '3600',
+        upsert: false,
+      });
+
+    setUploading(false);
+
+    if (error) {
+      alert('Upload error: ' + error.message);
+    } else {
+      alert('File uploaded successfully!');
+      setSelectedFile(null); // 업로드 후 파일 선택 초기화
+    }
+  };
 
   return (
     <SideMenuBar>
@@ -47,12 +80,19 @@ export const TrafficHubMap = () => {
 
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogTitle>Upload Excel File</DialogTitle>
                 <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  Select your file to upload to the server.
                 </DialogDescription>
               </DialogHeader>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept=".xlsx, .xls"
+              />
+              <Button onClick={uploadFile} disabled={uploading}>
+                {uploading ? 'Uploading...' : 'Upload File'}
+              </Button>
             </DialogContent>
           </Dialog>
         </ExpandableToggleBar>
