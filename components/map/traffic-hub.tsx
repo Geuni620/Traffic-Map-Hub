@@ -9,6 +9,7 @@ import { useCategoryFilter } from 'hooks/useCategoryFilter';
 import { useGoogleMapsZoom } from 'hooks/useGoogleMapsZoom';
 import { useTrafficGetQuery } from 'hooks/useTrafficGetQuery';
 import { GoogleMap } from 'lib/google-map';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import {
@@ -39,25 +40,21 @@ export const TrafficHubMap = () => {
   };
 
   const uploadFile = async () => {
-    if (!selectedFile) return;
-
-    setUploading(true);
-
-    const { data, error } = await supabase.storage
-      .from('your-bucket-name')
-      .upload(`uploads/${selectedFile.name}`, selectedFile, {
-        cacheControl: '3600',
-        upsert: false,
-      });
-
-    setUploading(false);
-
-    if (error) {
-      alert('Upload error: ' + error.message);
-    } else {
-      alert('File uploaded successfully!');
-      setSelectedFile(null); // 업로드 후 파일 선택 초기화
-    }
+    // if (!selectedFile) return;
+    // setUploading(true);
+    // const { data, error } = await supabase.storage
+    //   .from('your-bucket-name')
+    //   .upload(`uploads/${selectedFile.name}`, selectedFile, {
+    //     cacheControl: '3600',
+    //     upsert: false,
+    //   });
+    // setUploading(false);
+    // if (error) {
+    //   alert('Upload error: ' + error.message);
+    // } else {
+    //   alert('File uploaded successfully!');
+    //   setSelectedFile(null); // 업로드 후 파일 선택 초기화
+    // }
   };
 
   return (
@@ -74,7 +71,7 @@ export const TrafficHubMap = () => {
           />
           <LoadingIndicator isFetching={isFetching} />
           <Dialog>
-            <Button className="absolute right-0 z-20 m-5 h-10 w-20 bg-red-500">
+            <Button className="absolute right-24 z-20 m-5 h-10 w-20 bg-red-500">
               <DialogTrigger>Upload</DialogTrigger>
             </Button>
 
@@ -95,6 +92,12 @@ export const TrafficHubMap = () => {
               </Button>
             </DialogContent>
           </Dialog>
+
+          <Link className="hover:underline" href="/api/download">
+            <Button className="absolute right-0 z-20 m-5 h-10 w-20 bg-red-500">
+              Download
+            </Button>
+          </Link>
         </ExpandableToggleBar>
       </LegendToggleButtonManager>
     </SideMenuBar>
