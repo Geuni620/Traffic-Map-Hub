@@ -34,27 +34,21 @@ export const TrafficHubMap = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
-  // 파일 선택 핸들러
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
-  const uploadFile = async () => {
-    // if (!selectedFile) return;
-    // setUploading(true);
-    // const { data, error } = await supabase.storage
-    //   .from('your-bucket-name')
-    //   .upload(`uploads/${selectedFile.name}`, selectedFile, {
-    //     cacheControl: '3600',
-    //     upsert: false,
-    //   });
-    // setUploading(false);
-    // if (error) {
-    //   alert('Upload error: ' + error.message);
-    // } else {
-    //   alert('File uploaded successfully!');
-    //   setSelectedFile(null); // 업로드 후 파일 선택 초기화
-    // }
+  const handleFileUpload = async () => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await response.json();
+    console.log(result);
   };
 
   return (
@@ -93,7 +87,7 @@ export const TrafficHubMap = () => {
             </DialogContent>
           </Dialog>
 
-          <Link className="hover:underline" href="/api/download">
+          <Link className="hover:underline" href="/api/excel/download">
             <Button className="absolute right-0 z-20 m-5 h-10 w-20 bg-red-500">
               Download
             </Button>
