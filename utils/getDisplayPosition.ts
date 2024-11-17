@@ -6,15 +6,19 @@ type DisplayPosition = {
   zoom: number;
 };
 
+const EXPANSION_FACTOR = 1.3;
+
 export const getDisplayPosition = (map: google.maps.Map): DisplayPosition => {
   const center = map.getCenter();
   const bounds = map.getBounds();
 
   const longitudeDelta = bounds
-    ? (bounds.getNorthEast().lng() - bounds.getSouthWest().lng()) / 2
+    ? ((bounds.getNorthEast().lng() - bounds.getSouthWest().lng()) / 2) *
+      EXPANSION_FACTOR
     : 0;
   const latitudeDelta = bounds
-    ? (bounds.getNorthEast().lat() - bounds.getSouthWest().lat()) / 2
+    ? ((bounds.getNorthEast().lat() - bounds.getSouthWest().lat()) / 2) *
+      EXPANSION_FACTOR
     : 0;
   const longitude = center ? center.lng() : 0;
   const latitude = center ? center.lat() : 0;
